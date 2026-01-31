@@ -144,23 +144,25 @@ const Projects = () => {
 
       {/* Project Details Modal */}
       <Dialog open={!!selectedProject} onOpenChange={() => setSelectedProject(null)}>
-        <DialogContent className="glass max-w-2xl">
-          <DialogHeader>
-            <DialogTitle className="text-3xl font-bold flex items-center gap-3">
-              {selectedProject?.icon && <selectedProject.icon className="w-8 h-8 text-primary" />}
-              {selectedProject?.title}
+        <DialogContent className="glass max-w-4xl w-[95vw] max-h-[90vh] overflow-y-auto mx-auto">
+          <DialogHeader className="pb-4">
+            <DialogTitle className="text-2xl md:text-3xl font-bold flex items-center gap-3 break-words">
+              {selectedProject?.icon && <selectedProject.icon className="w-6 h-6 md:w-8 md:h-8 text-primary flex-shrink-0" />}
+              <span className="break-words">{selectedProject?.title}</span>
             </DialogTitle>
-            <DialogDescription className="text-muted-foreground">
+            <DialogDescription className="text-sm md:text-base text-muted-foreground">
               {selectedProject?.date}
             </DialogDescription>
           </DialogHeader>
-          <div className="space-y-4">
-            <p className="text-foreground leading-relaxed">{selectedProject?.details}</p>
+          <div className="space-y-6">
+            <div className="text-sm md:text-base leading-relaxed">
+              <p className="text-foreground break-words">{selectedProject?.details}</p>
+            </div>
             <div>
-              <h4 className="font-semibold mb-2">Technologies Used:</h4>
+              <h4 className="font-semibold mb-3 text-lg">Technologies Used:</h4>
               <div className="flex flex-wrap gap-2">
                 {selectedProject?.tags.map((tag) => (
-                  <Badge key={tag} variant="secondary">
+                  <Badge key={tag} variant="secondary" className="text-xs md:text-sm">
                     {tag}
                   </Badge>
                 ))}
@@ -168,12 +170,12 @@ const Projects = () => {
             </div>
             {selectedProject?.link && (
               <div className="pt-4">
-                <Button asChild className="w-full">
+                <Button asChild className="w-full text-sm md:text-base py-3">
                   <a 
                     href={selectedProject.link} 
                     target="_blank" 
                     rel="noopener noreferrer"
-                    className="flex items-center gap-2"
+                    className="flex items-center justify-center gap-2"
                   >
                     <Globe className="w-4 h-4" />
                     Visit Website
