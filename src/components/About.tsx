@@ -10,7 +10,7 @@ const About = () => {
 
   const skills = [
     { icon: Lightbulb, title: "Problem Solving", color: "lavender" },
-    { icon: Users, title: "Teamwork", color: "mint" },
+    { icon: Users, title: "Leadership", color: "mint" },
     { icon: Target, title: "Adaptability", color: "peach" },
   ];
 
@@ -52,13 +52,10 @@ const About = () => {
               transition={{ duration: 0.8, delay: 0.4 }}
             >
               <p className="text-lg text-foreground leading-relaxed mb-6">
-                I'm a second-year student specializing in application development, 
-                passionate about technology and artificial intelligence. I have hands-on 
-                experience in web development and creating intelligent solutions.
+                ⚡ Code is my canvas, and AI is my paintbrush. I'm a software developer who sees every challenge as an opportunity to innovate and every project as a chance to push the boundaries of what's possible.
               </p>
               <p className="text-lg text-foreground leading-relaxed mb-8">
-                Known for problem-solving, adaptability, and teamwork, I'm seeking an 
-                internship to apply my skills and contribute meaningfully to real-world projects.
+                🚀 Currently diving deep into the fascinating intersection of web development and artificial intelligence. I don't just build applications—I create experiences that think, learn, and evolve. Ready to transform bold ideas into elegant, intelligent solutions that make a real impact!
               </p>
 
               {/* Skills badges */}

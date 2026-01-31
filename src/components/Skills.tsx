@@ -14,6 +14,8 @@ const Skills = () => {
       skills: [
         { name: "Python", level: 85 },
         { name: "JavaScript", level: 90 },
+        { name: "Java", level: 80 },
+        { name: "React", level: 85 },
         { name: "HTML/CSS", level: 95 },
         { name: "C#", level: 75 },
         { name: "C", level: 70 },
@@ -37,6 +39,7 @@ const Skills = () => {
       skills: [
         { name: "NLP APIs", level: 85 },
         { name: "Fine-tuning Models", level: 80 },
+        { name: "Automation", level: 88 },
         { name: "Generative AI", level: 85 },
         { name: "Chatbot Design", level: 90 },
       ],

@@ -1,9 +1,10 @@
 import { motion } from "framer-motion";
 import { useInView } from "framer-motion";
 import { useRef, useState } from "react";
-import { MessageSquare, ShoppingBag, FileText, Heart, ExternalLink } from "lucide-react";
+import { MessageSquare, ShoppingBag, FileText, ExternalLink, Globe, Database, Users } from "lucide-react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 
 interface Project {
   id: number;
@@ -14,6 +15,7 @@ interface Project {
   tags: string[];
   details: string;
   color: string;
+  link?: string;
 }
 
 const Projects = () => {
@@ -24,42 +26,64 @@ const Projects = () => {
   const projects: Project[] = [
     {
       id: 1,
-      title: "Multi-Chatbot Platform",
-      description: "An intelligent, multi-domain chatbot platform for document analysis, general conversation, and custom services.",
-      date: "February 2025",
-      icon: MessageSquare,
-      tags: ["Node.js", "JavaScript", "APIs", "AI"],
-      details: "Built a comprehensive chatbot system with clean, intuitive UI and responsive design. Features include document processing, natural language understanding, and custom service integration.",
+      title: "HR-Genius AI Platform",
+      description: "A full-stack AI-powered HR automation platform with conversational interface and role-based access control.",
+      date: "December 2025 - Present",
+      icon: Users,
+      tags: ["React", "Node.js", "TypeScript", "LangChain", "PostgreSQL", "JWT", "AI"],
+      details: "HR-Genius is a full-stack AI-powered HR automation platform that enables HR teams to manage employees and generate documents through a conversational chat interface. The frontend, built with React, provides a role-aware experience where available actions adapt dynamically based on user roles (HR, Manager, Employee). The backend, developed with Node.js, Express, and TypeScript, follows a strict Planner–Executor architecture, using LangChain with Google Gemini exclusively for intent extraction and natural language generation, while all business rules and permissions are enforced deterministically server-side. The system implements JWT authentication with role-based access control, ensuring that only authorized actions are executed. Data is persisted in PostgreSQL via Prisma, including employee records, generated documents, action logs, and backend conversational memory for contextual references such as 'him' or 'that document.' HR documents are dynamically generated as PDFs and automatically delivered via n8n workflows using SMTP, with explainable AI responses generated strictly from verified backend results to ensure accuracy and auditability. AI decides what to do, the backend decides how to do it safely.",
       color: "lavender",
     },
     {
       id: 2,
-      title: "Artistic E-commerce Website",
-      description: "E-commerce site for selling handmade clay art including lamps, decorations, and candles.",
-      date: "March 2025",
-      icon: ShoppingBag,
-      tags: ["HTML", "CSS", "JavaScript", "E-commerce"],
-      details: "Created a beautiful e-commerce platform with product gallery, shopping cart functionality, and artistic design elements that complement the handmade nature of the products.",
-      color: "mint",
+      title: "MultiMind AI Platform",
+      description: "A full-stack intelligent web assistant integrating multiple AI domains into a single modular platform.",
+      date: "February 2025",
+      icon: MessageSquare,
+      tags: ["Node.js", "Express", "MySQL", "Gemini API", "JavaScript"],
+      details: "MultiMind AI is a full-stack intelligent web assistant that integrates multiple AI domains (business, IT, education, health, languages, personal assistance) into a single modular platform. It was built using HTML/CSS/JavaScript for the frontend, Node.js (Express) for the backend, MySQL for persistent chat storage, and the Gemini API for contextual AI responses. The system supports domain-based agents with custom prompts and separate conversation memory, secure user authentication, and REST endpoints for message processing and history retrieval. The interface includes dynamic chat rendering, domain navigation, and real-time response indicators. The project demonstrates AI API integration, multi-agent architecture, and stateful conversation management in a scalable web system.",
+      color: "lavender",
     },
     {
       id: 3,
-      title: "Exam Generator Using LLMs",
-      description: "A language model tool to generate custom exam papers from archived school materials.",
+      title: "Ghazala AI Exam Generator",
+      description: "An educational AI assistant based on a fine-tuned LLaMA 3–8B model for exam generation and academic Q&A.",
       date: "July 2025 – August 2025",
       icon: FileText,
-      tags: ["Python", "AI", "NLP", "Education"],
-      details: "Developed an AI-powered exam generation system with focus on fine-tuning language models and designing an intuitive teacher-oriented interface for easy exam customization.",
-      color: "peach",
+      tags: ["LLaMA 3", "LoRA", "FAISS", "Hugging Face", "Gradio"],
+      details: "Ghazala AI is an educational AI assistant based on a fine-tuned LLaMA 3–8B model adapted using LoRA on Google Colab Pro (A100 GPU). It implements a full NLP pipeline: document cleaning, chunking, embeddings generation, and semantic indexing with FAISS for retrieval-augmented generation. Relevant document chunks are injected into prompts to improve answer accuracy and reduce hallucinations. The system uses Hugging Face Transformers, PEFT, and a Gradio interface for interaction, enabling exam generation and academic Q&A. This project highlights applied LLM fine-tuning, vector search, and domain-specific AI system design.",
+      color: "lavender",
     },
     {
       id: 4,
-      title: "Therapeutic AI Assistant",
-      description: "An empathetic chatbot for mental well-being using ElevenLabs.io.",
-      date: "April 2025",
-      icon: Heart,
-      tags: ["AI", "NLP", "Healthcare", "ElevenLabs"],
-      details: "Designed a compassionate AI assistant that offers supportive, ethical, and adaptive conversations for mental wellness. Implements advanced NLP techniques for empathetic responses.",
+      title: "Aurelle Luxury Jewelry",
+      description: "A refined luxury jewelry brand website concept with elegant editorial layouts and premium digital experience.",
+      date: "January 2026",
+      icon: ShoppingBag,
+      tags: ["React", "Framer Motion", "Luxury Design", "Editorial Layout", "Responsive"],
+      details: "Aurelle is a refined luxury jewelry brand website concept designed as a high-end digital experience. The project blends elegant editorial layouts, emotional storytelling, and smooth interactions to present jewelry as art rather than simple products. It focuses on modern visual direction, premium aesthetics, and responsive design to reflect the standards of global luxury fashion brands. The design features sophisticated typography, carefully curated imagery, subtle animations, and an intuitive user journey that enhances the luxury shopping experience. This project demonstrates expertise in luxury e-commerce design, editorial web development, and creating premium digital experiences that match brand prestige.",
+      color: "peach",
+      link: "https://aurelle-five.vercel.app"
+    },
+    {
+      id: 5,
+      title: "ClayWhimsy E-commerce",
+      description: "A premium artistic e-commerce platform showcasing handmade clay art, lamps, and decorative pieces with modern shopping experience.",
+      date: "March 2025",
+      icon: ShoppingBag,
+      tags: ["React", "TailwindCSS", "Commerce", "Responsive Design", "UI/UX"],
+      details: "ClayWhimsy is a sophisticated e-commerce platform designed to showcase and sell handmade clay art including lamps, decorations, and candles. Built with a focus on aesthetic appeal and user experience, the platform features a product gallery with high-quality imagery, advanced filtering capabilities, secure shopping cart functionality, and seamless checkout process. The design emphasizes the artistic nature of the products with custom layouts, smooth animations, and a color palette that complements the handmade clay items. The site includes inventory management, order tracking, and responsive design ensuring perfect viewing across all devices. This project demonstrates full-stack e-commerce development with attention to both visual design and commercial functionality.",
+      color: "mint",
+      link: "https://claywhimsy.vercel.app"
+    },
+    {
+      id: 6,
+      title: "Stock Management System",
+      description: "A Windows desktop application for Provincial Directorate stock operations with multi-user network capabilities.",
+      date: "January 2026",
+      icon: Database,
+      tags: ["Python", "PyQt5", "SQLite", "Excel Integration", "Desktop App"],
+      details: "This Windows desktop stock management application is developed for a Provincial Directorate to modernize and centralize stock operations. Built with Python (PyQt5) and using a shared SQLite (.db) database on a local network, it allows multiple workstations to work with the same synchronized data in an offline environment. The system manages stock entries through Excel imports, stock outputs via automatically generated official discharge documents, and provides real-time stock tracking with alerts. It also includes modules for articles, beneficiaries, history, and reports, along with user authentication and full traceability, ensuring reliability and compliance with public administration practices.",
       color: "sky",
     },
   ];
@@ -142,6 +166,21 @@ const Projects = () => {
                 ))}
               </div>
             </div>
+            {selectedProject?.link && (
+              <div className="pt-4">
+                <Button asChild className="w-full">
+                  <a 
+                    href={selectedProject.link} 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-2"
+                  >
+                    <Globe className="w-4 h-4" />
+                    Visit Website
+                  </a>
+                </Button>
+              </div>
+            )}
           </div>
         </DialogContent>
       </Dialog>
