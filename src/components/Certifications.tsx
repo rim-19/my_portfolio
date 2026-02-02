@@ -7,6 +7,7 @@ import alxCertificate from "../assets/72-virtual-assistant-certificate-rim-elrhe
 import aiForBeginnersCertificate from "../assets/aiForBeginners.png";
 import awsCertificate from "../assets/aws.png";
 import azureCertificate from "../assets/azure.png";
+import ibmGenerativeAIBadge from "../assets/code-generation-and-optimization-using-ibm-granite.png";
 
 interface Certification {
   title: string;
@@ -65,9 +66,10 @@ const Certifications = () => {
       title: "Generative AI Badge",
       issuer: "IBM",
       date: "March 2025 – April 2025",
-      description: "Learned about large language models and real-world AI applications.",
+      description: "Learned about large language models and real-world AI applications, including code generation and optimization using IBM Granite models.",
       icon: Award,
       color: "lavender",
+      image: ibmGenerativeAIBadge,
     },
   ];
 
