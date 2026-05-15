@@ -25,10 +25,21 @@ const Projects = () => {
 
   const projects: Project[] = [
     {
+      id: 7,
+      title: "ResumeIQ (AI Resume Analyzer)",
+      description: "A modern, stateless AI application built to analyze, score, and optimize professional resumes.",
+      date: "May 2026",
+      icon: FileText,
+      tags: ["Next.js 15", "TypeScript", "Gemini 2.5-Flash", "Recharts", "Stateless"],
+      details: "ResumeIQ is a modern, stateless AI application built to analyze, score, and optimize professional resumes. It bridges the gap between raw candidate data and modern Applicant Tracking Systems (ATS). The project utilizes a zero-storage architecture, meaning it functions without a persistent database connection. It calculates a deterministic ATS Score based on Skills (40%), Keywords (25%), Experience (20%), and Formatting (15%), while dynamically estimating years of experience and intelligently parsing document sections. Using an 'Executive Recruiter' persona, the AI engine provides actionable marketability evaluation, evidence-based strengths and weaknesses, and rewrites experience bullets using the Google XYZ formula. The system handles file parsing for PDFs and DOCXs and generates refined cover letters, all while retaining data only in the client-side memory.",
+      color: "sky",
+      link: "https://resume-analyzer-six-gold.vercel.app/"
+    },
+    {
       id: 1,
       title: "HR-Genius AI Platform",
       description: "A full-stack AI-powered HR automation platform with conversational interface and role-based access control.",
-      date: "December 2025 - Present",
+      date: "January 2026",
       icon: Users,
       tags: ["React", "Node.js", "TypeScript", "LangChain", "PostgreSQL", "JWT", "AI"],
       details: "HR-Genius is a full-stack AI-powered HR automation platform that enables HR teams to manage employees and generate documents through a conversational chat interface. The frontend, built with React, provides a role-aware experience where available actions adapt dynamically based on user roles (HR, Manager, Employee). The backend, developed with Node.js, Express, and TypeScript, follows a strict Planner–Executor architecture, using LangChain with Google Gemini exclusively for intent extraction and natural language generation, while all business rules and permissions are enforced deterministically server-side. The system implements JWT authentication with role-based access control, ensuring that only authorized actions are executed. Data is persisted in PostgreSQL via Prisma, including employee records, generated documents, action logs, and backend conversational memory for contextual references such as 'him' or 'that document.' HR documents are dynamically generated as PDFs and automatically delivered via n8n workflows using SMTP, with explainable AI responses generated strictly from verified backend results to ensure accuracy and auditability. AI decides what to do, the backend decides how to do it safely.",
