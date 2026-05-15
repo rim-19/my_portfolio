@@ -3,7 +3,7 @@ import { useRef } from "react";
 import { ArrowDown, Download, Mail, ChevronDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import heroBg from "../assets/hero-bg.jpg";
-import resumePdf from "../assets/Resume-RimElrhezzal.pdf";
+import resumePdf from "../assets/Resume_RimElrhezzal.pdf";
 
 const Hero = () => {
   const scrollToSection = (id: string) => {
