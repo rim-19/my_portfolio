@@ -25,7 +25,7 @@ const certifications: Certification[] = [
     issuer: "AWS",
     date: "December 2025",
     description:
-      "Crafting effective prompts to guide AI tools toward accurate, reliable, and practical results.",
+      "How to write prompts that get accurate, reliable results out of AI tools.",
     image: awsCertificate,
   },
   {
@@ -33,7 +33,7 @@ const certifications: Certification[] = [
     issuer: "ScholarHat",
     date: "December 2025",
     description:
-      "Core concepts, tools, and best practices for planning, building, testing, and delivering software on Azure DevOps.",
+      "Planning, building, testing, and shipping software with Azure DevOps.",
     image: azureCertificate,
   },
   {
@@ -41,7 +41,7 @@ const certifications: Certification[] = [
     issuer: "ALX",
     date: "April 2025",
     description:
-      "An 8-week program covering virtual assistance, project management, and modern digital communication tools.",
+      "An eight-week program on virtual assistance, project management, and digital communication tools.",
     image: alxCertificate,
     verificationUrl: "https://savanna.alxafrica.org/certificates/2BpsNPe3FX",
   },
@@ -49,7 +49,7 @@ const certifications: Certification[] = [
     title: "AI for Beginners",
     issuer: "HP LIFE",
     date: "February 2025",
-    description: "Key concepts of AI, the importance of data, and ethics in artificial intelligence.",
+    description: "The basics of AI, why data matters, and the ethics behind it.",
     image: aiForBeginnersCertificate,
   },
   {
@@ -57,7 +57,7 @@ const certifications: Certification[] = [
     issuer: "IBM",
     date: "March - April 2025",
     description:
-      "Large language models and real-world AI applications, including code generation with IBM Granite models.",
+      "Large language models and where they're used, including code generation with IBM Granite.",
     image: ibmGenerativeAIBadge,
   },
 ];
@@ -71,7 +71,7 @@ const Certifications = () => {
       <div ref={ref} className="mx-auto max-w-6xl px-6">
         <SectionHeading
           title="Certifications"
-          subtitle="Continuous learning across AI, cloud, and modern development practices."
+          subtitle="Courses and badges I've picked up across AI, cloud, and development."
         />
 
         <div className="mt-16 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">

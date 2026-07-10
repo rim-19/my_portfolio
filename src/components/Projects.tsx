@@ -1,6 +1,6 @@
 import { motion, useInView } from "framer-motion";
 import { useRef, useState } from "react";
-import { MessageSquare, ShoppingBag, FileText, ArrowUpRight, Globe, Database, Users } from "lucide-react";
+import { MessageSquare, ShoppingBag, FileText, ArrowUpRight, Globe, Database, Users, Coffee } from "lucide-react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -22,84 +22,95 @@ interface Project {
 
 const projects: Project[] = [
   {
+    id: 8,
+    title: "Cupid: Coffee House & Bookshop E-commerce",
+    description:
+      "A full-stack store for a coffee house and bookshop, with a server-rendered storefront, Stripe checkout, and a full admin dashboard.",
+    date: "July 2026",
+    icon: Coffee,
+    tags: ["React", "Vite", "Node/Express", "Prisma", "PostgreSQL (Supabase)", "Stripe"],
+    details:
+      "Cupid is a full-stack e-commerce platform for a coffee house and bookshop, built with a server-rendered React storefront and a Node/Express REST API backed by PostgreSQL through Prisma. Shoppers browse a searchable catalog with server-side filtering, sorting, and pagination, build a cart and wishlist that carry over from guest to account, and check out through Stripe's hosted flow, where orders are confirmed by a signed webhook and finalized idempotently, with atomic stock guards that stop overselling. Accounts run on cookie-based sessions with email verification, password reset, account lockout, and breached-password checks, and they support reviews with verified-purchase badges, events with RSVPs, and a double opt-in newsletter. Every eligible order comes with a downloadable e-book, delivered through short-lived signed URLs from private storage. The whole shop is run from a full-page, role-based admin dashboard that handles the catalog, orders, and editable site settings, right down to the brand, banner, and live theme accent, while server-side rendering and per-product structured data keep it fast and easy to find in search.",
+  },
+  {
     id: 7,
     title: "ResumeIQ: AI Resume Analyzer",
     description:
-      "A modern, stateless AI application that analyzes, scores, and optimizes professional resumes against modern ATS systems.",
+      "An AI tool that reads a resume, scores it the way an ATS would, and suggests concrete rewrites, all without storing anything.",
     date: "May 2026",
     icon: FileText,
     tags: ["Next.js 15", "TypeScript", "Gemini 2.5-Flash", "Recharts", "Stateless"],
     details:
-      "ResumeIQ is a modern, stateless AI application built to analyze, score, and optimize professional resumes. It bridges the gap between raw candidate data and modern Applicant Tracking Systems (ATS). The project utilizes a zero-storage architecture, meaning it functions without a persistent database connection. It calculates a deterministic ATS Score based on Skills (40%), Keywords (25%), Experience (20%), and Formatting (15%), while dynamically estimating years of experience and intelligently parsing document sections. Using an 'Executive Recruiter' persona, the AI engine provides actionable marketability evaluation, evidence-based strengths and weaknesses, and rewrites experience bullets using the Google XYZ formula. The system handles file parsing for PDFs and DOCXs and generates refined cover letters, all while retaining data only in the client-side memory.",
+      "ResumeIQ reads a resume and scores it the way an applicant tracking system would, then points out exactly what to fix. It runs without a database: files are parsed in the browser and nothing is kept on a server. The score is deterministic, weighted across skills (40%), keywords (25%), experience (20%), and formatting (15%), and the app estimates years of experience and splits the document into sections on its own. Behind it, the AI takes an 'executive recruiter' point of view, giving a marketability read, evidence-based strengths and weaknesses, and rewrites of experience bullets using the Google XYZ formula. It also handles PDF and DOCX parsing and drafts a tailored cover letter, all while keeping your data in memory only.",
     link: "https://resume-analyzer-six-gold.vercel.app/",
   },
   {
     id: 1,
     title: "HR-Genius AI Platform",
     description:
-      "A full-stack AI-powered HR automation platform with a conversational interface and role-based access control.",
+      "An HR platform where you manage staff and generate documents by chatting. The AI plans; the server decides what's actually allowed.",
     date: "January 2026",
     icon: Users,
     tags: ["React", "Node.js", "TypeScript", "LangChain", "PostgreSQL", "JWT"],
     details:
-      "HR-Genius is a full-stack AI-powered HR automation platform that enables HR teams to manage employees and generate documents through a conversational chat interface. The frontend, built with React, provides a role-aware experience where available actions adapt dynamically based on user roles (HR, Manager, Employee). The backend, developed with Node.js, Express, and TypeScript, follows a strict Planner-Executor architecture, using LangChain with Google Gemini exclusively for intent extraction and natural language generation, while all business rules and permissions are enforced deterministically server-side. The system implements JWT authentication with role-based access control, ensuring that only authorized actions are executed. Data is persisted in PostgreSQL via Prisma, including employee records, generated documents, action logs, and backend conversational memory for contextual references such as 'him' or 'that document.' HR documents are dynamically generated as PDFs and automatically delivered via n8n workflows using SMTP, with explainable AI responses generated strictly from verified backend results to ensure accuracy and auditability. AI decides what to do, the backend decides how to do it safely.",
+      "HR-Genius lets an HR team manage employees and generate documents just by chatting. The React frontend adapts to whoever is signed in, so HR, managers, and employees each see only the actions they are allowed to take. On the backend (Node, Express, TypeScript) I used a strict planner-executor split: LangChain with Google Gemini only handles reading intent and writing the reply, while every rule and permission is enforced in code on the server. Auth is JWT with role-based access, and everything lives in PostgreSQL through Prisma, including employee records, generated documents, action logs, and a bit of conversational memory so the assistant understands references like 'him' or 'that document.' Documents are built as PDFs and emailed automatically through n8n over SMTP, and the AI only explains results the backend has already confirmed. AI decides what to do; the backend decides how to do it safely.",
   },
   {
     id: 2,
     title: "MultiMind AI Platform",
     description:
-      "A full-stack intelligent web assistant integrating multiple AI domains into a single modular platform.",
+      "A web assistant that splits into several focused AI agents, each with its own purpose and its own memory.",
     date: "February 2025",
     icon: MessageSquare,
     tags: ["Node.js", "Express", "MySQL", "Gemini API", "JavaScript"],
     details:
-      "MultiMind AI is a full-stack intelligent web assistant that integrates multiple AI domains (business, IT, education, health, languages, personal assistance) into a single modular platform. It was built using HTML/CSS/JavaScript for the frontend, Node.js (Express) for the backend, MySQL for persistent chat storage, and the Gemini API for contextual AI responses. The system supports domain-based agents with custom prompts and separate conversation memory, secure user authentication, and REST endpoints for message processing and history retrieval. The interface includes dynamic chat rendering, domain navigation, and real-time response indicators. The project demonstrates AI API integration, multi-agent architecture, and stateful conversation management in a scalable web system.",
+      "MultiMind is a web assistant that splits into several focused agents, each covering a different area (business, IT, education, health, languages, and general help) with its own prompt and its own conversation memory. The frontend is plain HTML, CSS, and JavaScript; the backend runs on Node and Express, with MySQL storing chats and the Gemini API generating replies. It has user accounts, REST endpoints for sending messages and pulling history, and a chat interface with domain switching and live typing indicators. The project was how I got comfortable with AI APIs, multi-agent structure, and keeping conversation state straight across a real web app.",
   },
   {
     id: 3,
     title: "Ghazala AI Exam Generator",
     description:
-      "An educational AI assistant based on a fine-tuned LLaMA 3-8B model for exam generation and academic Q&A.",
+      "A study assistant built on a fine-tuned LLaMA 3-8B model that writes exams and answers questions from course material.",
     date: "July 2025 - August 2025",
     icon: FileText,
     tags: ["LLaMA 3", "LoRA", "FAISS", "Hugging Face", "Gradio"],
     details:
-      "Ghazala AI is an educational AI assistant based on a fine-tuned LLaMA 3-8B model adapted using LoRA on Google Colab Pro (A100 GPU). It implements a full NLP pipeline: document cleaning, chunking, embeddings generation, and semantic indexing with FAISS for retrieval-augmented generation. Relevant document chunks are injected into prompts to improve answer accuracy and reduce hallucinations. The system uses Hugging Face Transformers, PEFT, and a Gradio interface for interaction, enabling exam generation and academic Q&A. This project highlights applied LLM fine-tuning, vector search, and domain-specific AI system design.",
+      "Ghazala is a study assistant built on a LLaMA 3-8B model I fine-tuned with LoRA on Google Colab Pro (an A100 GPU). It runs a full NLP pipeline: cleaning documents, chunking them, generating embeddings, and indexing everything in FAISS so the model can pull the right passages before it answers. Those passages get fed into the prompt, which keeps answers grounded and cuts down on made-up facts. It is built with Hugging Face Transformers and PEFT behind a simple Gradio interface, and it can both generate exams and answer questions from the course material. This was my deep dive into fine-tuning, vector search, and building an AI system around one specific subject.",
   },
   {
     id: 4,
     title: "Aurelle Luxury Jewelry",
     description:
-      "A refined luxury jewelry brand website concept with elegant editorial layouts and a premium digital experience.",
+      "A concept site for a luxury jewelry brand, built around editorial layout and the feel of a high-end storefront.",
     date: "January 2026",
     icon: ShoppingBag,
     tags: ["React", "Framer Motion", "Editorial Layout", "Responsive"],
     details:
-      "Aurelle is a refined luxury jewelry brand website concept designed as a high-end digital experience. The project blends elegant editorial layouts, emotional storytelling, and smooth interactions to present jewelry as art rather than simple products. It focuses on modern visual direction, premium aesthetics, and responsive design to reflect the standards of global luxury fashion brands. The design features sophisticated typography, carefully curated imagery, subtle animations, and an intuitive user journey that enhances the luxury shopping experience. This project demonstrates expertise in luxury e-commerce design, editorial web development, and creating premium digital experiences that match brand prestige.",
+      "Aurelle is a concept site for a luxury jewelry brand, built to feel like a real high-end storefront rather than a product list. I leaned on editorial layouts, careful typography, and slow, subtle motion so the pieces read as objects worth looking at. It is fully responsive and takes its cues from the way global fashion houses present their work online. The focus here was visual direction and pacing: making something that feels expensive and calm, and holds together on any screen.",
     link: "https://aurelle-five.vercel.app",
   },
   {
     id: 5,
     title: "ClayWhimsy E-commerce",
     description:
-      "A premium artistic e-commerce platform showcasing handmade clay art, lamps, and decorative pieces.",
+      "An online shop for handmade clay lamps and decor, with a catalog, cart, and checkout.",
     date: "March 2025",
     icon: ShoppingBag,
     tags: ["React", "TailwindCSS", "Commerce", "UI/UX"],
     details:
-      "ClayWhimsy is a sophisticated e-commerce platform designed to showcase and sell handmade clay art including lamps, decorations, and candles. Built with a focus on aesthetic appeal and user experience, the platform features a product gallery with high-quality imagery, advanced filtering capabilities, secure shopping cart functionality, and seamless checkout process. The design emphasizes the artistic nature of the products with custom layouts, smooth animations, and a color palette that complements the handmade clay items. The site includes inventory management, order tracking, and responsive design ensuring perfect viewing across all devices. This project demonstrates full-stack e-commerce development with attention to both visual design and commercial functionality.",
+      "ClayWhimsy is an online shop for handmade clay lamps, candles, and decor. It has a product gallery with real imagery, filtering, a shopping cart, and a checkout flow, plus inventory and order tracking behind the scenes. I built the layout and color palette around the handmade feel of the products, and made sure it works cleanly on phones, tablets, and desktops. It was a full run at building a working storefront, front to back.",
     link: "https://claywhimsy.vercel.app",
   },
   {
     id: 6,
     title: "Stock Management System",
     description:
-      "A Windows desktop application for Provincial Directorate stock operations with multi-user network capabilities.",
+      "A Windows desktop app that runs stock operations for a provincial directorate, with several workstations sharing one database.",
     date: "January 2026",
     icon: Database,
     tags: ["Python", "PyQt5", "SQLite", "Excel Integration"],
     details:
-      "This Windows desktop stock management application is developed for a Provincial Directorate to modernize and centralize stock operations. Built with Python (PyQt5) and using a shared SQLite (.db) database on a local network, it allows multiple workstations to work with the same synchronized data in an offline environment. The system manages stock entries through Excel imports, stock outputs via automatically generated official discharge documents, and provides real-time stock tracking with alerts. It also includes modules for articles, beneficiaries, history, and reports, along with user authentication and full traceability, ensuring reliability and compliance with public administration practices.",
+      "This is a Windows desktop app I built for a provincial directorate to bring their stock management into one place. It is written in Python with PyQt5 and runs on a shared SQLite database over the local network, so several workstations can work off the same data without needing the internet. Stock comes in through Excel imports and goes out via official discharge documents the app generates automatically, with live tracking and low-stock alerts. It also covers articles, beneficiaries, history, and reports, with logins and a full audit trail so everything stays accountable, the way public administration work needs to be.",
   },
 ];
 
@@ -108,7 +119,8 @@ const Projects = () => {
   const inView = useInView(ref, { once: true, margin: "-100px" });
   const [selected, setSelected] = useState<Project | null>(null);
 
-  const [featured, ...rest] = projects;
+  const [f1, f2, ...rest] = projects;
+  const featuredList = [f1, f2];
 
   return (
     <section id="projects" className="relative overflow-hidden py-24 md:py-32">
@@ -116,58 +128,64 @@ const Projects = () => {
         <SectionHeading
           eyebrow="Selected work"
           title="Things I've built"
-          subtitle="A mix of applied AI, full-stack platforms, and interfaces I care about."
+          subtitle="A few things I've designed and built, from AI tools to full online stores."
           align="left"
         />
 
-        {/* Featured project */}
-        <motion.div
-          initial={{ opacity: 0, y: 32 }}
-          animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.7, ease }}
-          className="mt-12"
-        >
-          <Tilt max={4} perspective={1400} radius="1.5rem" glare className="w-full">
-            <button
-              onClick={() => setSelected(featured)}
-              className="group grid w-full gap-8 overflow-hidden rounded-3xl border border-primary/15 bg-gradient-to-br from-card via-card to-blush/50 p-8 text-left shadow-sm transition-shadow duration-300 hover:shadow-lg md:grid-cols-[1fr_1.4fr] md:p-10"
+        {/* Featured projects */}
+        <div className="mt-12 space-y-6">
+          {featuredList.map((project, idx) => (
+            <motion.div
+              key={project.id}
+              initial={{ opacity: 0, y: 32 }}
+              animate={inView ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.7, delay: idx * 0.1, ease }}
             >
-          <div className="flex flex-col justify-center">
-            <span className="text-xs font-medium uppercase tracking-[0.2em] text-primary">
-              Featured
-            </span>
-            <div className="mt-4 flex h-14 w-14 items-center justify-center rounded-2xl gradient-rose text-white shadow-rose">
-              <featured.icon className="h-7 w-7" strokeWidth={1.75} />
-            </div>
-            <h3 className="mt-5 font-display text-2xl font-semibold text-plum md:text-3xl">
-              {featured.title}
-            </h3>
-            <p className="mt-1 text-sm text-muted-foreground">{featured.date}</p>
-          </div>
-
-          <div className="flex flex-col justify-center">
-            <p className="text-lg leading-relaxed text-muted-foreground">{featured.description}</p>
-            <div className="mt-6 flex flex-wrap gap-2">
-              {featured.tags.map((tag) => (
-                <span
-                  key={tag}
-                  className="rounded-full border border-border bg-white/60 px-3 py-1 text-xs font-medium text-muted-foreground"
+              <Tilt max={4} perspective={1400} radius="1.5rem" glare className="w-full">
+                <button
+                  onClick={() => setSelected(project)}
+                  className={`group grid w-full gap-8 overflow-hidden rounded-3xl border border-primary/15 bg-gradient-to-br from-card via-card to-blush/50 p-8 text-left shadow-sm transition-shadow duration-300 hover:shadow-lg md:p-10 ${
+                    idx % 2 === 0 ? "md:grid-cols-[1fr_1.4fr]" : "md:grid-cols-[1.4fr_1fr]"
+                  }`}
                 >
-                  {tag}
-                </span>
-              ))}
-            </div>
-            <span className="mt-7 inline-flex items-center gap-1.5 text-sm font-semibold text-primary">
-              View case study
-              <ArrowUpRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-            </span>
-          </div>
-            </button>
-          </Tilt>
-        </motion.div>
+                  <div className={`flex flex-col justify-center ${idx % 2 === 0 ? "" : "md:order-2"}`}>
+                    <span className="text-xs font-medium uppercase tracking-[0.2em] text-primary">
+                      {idx === 0 ? "Latest" : "Featured"}
+                    </span>
+                    <div className="mt-4 flex h-14 w-14 items-center justify-center rounded-2xl gradient-rose text-white shadow-rose">
+                      <project.icon className="h-7 w-7" strokeWidth={1.75} />
+                    </div>
+                    <h3 className="mt-5 font-display text-2xl font-semibold text-plum md:text-3xl">
+                      {project.title}
+                    </h3>
+                    <p className="mt-1 text-sm text-muted-foreground">{project.date}</p>
+                  </div>
+
+                  <div className={`flex flex-col justify-center ${idx % 2 === 0 ? "" : "md:order-1"}`}>
+                    <p className="text-lg leading-relaxed text-muted-foreground">{project.description}</p>
+                    <div className="mt-6 flex flex-wrap gap-2">
+                      {project.tags.map((tag) => (
+                        <span
+                          key={tag}
+                          className="rounded-full border border-border bg-white/60 px-3 py-1 text-xs font-medium text-muted-foreground"
+                        >
+                          {tag}
+                        </span>
+                      ))}
+                    </div>
+                    <span className="mt-7 inline-flex items-center gap-1.5 text-sm font-semibold text-primary">
+                      View case study
+                      <ArrowUpRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                    </span>
+                  </div>
+                </button>
+              </Tilt>
+            </motion.div>
+          ))}
+        </div>
 
         {/* Grid */}
-        <div className="mt-8 grid gap-6 md:grid-cols-2">
+        <div className="mt-6 grid gap-6 md:grid-cols-2">
           {rest.map((project, i) => (
             <motion.div
               key={project.id}

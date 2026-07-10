@@ -37,7 +37,7 @@ const Skills = () => {
       <div ref={ref} className="mx-auto max-w-5xl px-6">
         <SectionHeading
           title="Skills & toolkit"
-          subtitle="The languages, frameworks, and ways of working I reach for."
+          subtitle="The languages, tools, and habits I work with day to day."
         />
 
         <div className="mt-16 grid gap-6 md:grid-cols-2">

@@ -53,8 +53,8 @@ const Hero = () => {
             transition={{ duration: 0.7, delay: 0.18, ease }}
             className="mt-6 max-w-md text-lg leading-relaxed text-muted-foreground"
           >
-            I build intelligent, full-stack applications where thoughtful
-            engineering meets elegant design.
+            I build full-stack web applications, often with AI at the core, and I
+            sweat the details that make them reliable.
           </motion.p>
 
           <motion.div
@@ -110,7 +110,7 @@ const Hero = () => {
               <div className="absolute inset-0 bg-gradient-to-t from-plum/25 via-transparent to-transparent" />
             </div>
 
-            {/* Stat card — popped forward in real 3D depth */}
+            {/* Stat card: popped forward in real 3D depth */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -118,7 +118,7 @@ const Hero = () => {
               style={{ z: 55 }}
               className="glass-strong absolute -bottom-5 -left-5 z-20 rounded-2xl px-5 py-3.5"
             >
-              <p className="font-display text-2xl font-semibold text-plum">7+</p>
+              <p className="font-display text-2xl font-semibold text-plum">8</p>
               <p className="text-xs text-muted-foreground">Shipped projects</p>
             </motion.div>
           </Tilt>

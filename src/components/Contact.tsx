@@ -32,12 +32,13 @@ const Contact = () => {
                 Get in touch
               </span>
               <h2 className="mt-3 font-display text-4xl font-semibold leading-tight tracking-tight text-plum md:text-5xl">
-                Let&apos;s build something
-                <span className="italic text-gradient"> thoughtful.</span>
+                Let&apos;s make something
+                <span className="italic text-gradient"> worth using.</span>
               </h2>
               <p className="mt-5 max-w-md text-lg leading-relaxed text-muted-foreground">
-                Open to junior developer roles, internships, and freelance work.
-                If you have an idea worth building, I&apos;d love to hear it.
+                I&apos;m looking for junior developer roles, internships, and
+                freelance projects. If you&apos;re working on something interesting,
+                send it my way.
               </p>
               <a
                 href="mailto:elrhezzalrim@gmail.com"

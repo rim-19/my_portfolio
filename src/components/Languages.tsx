@@ -12,10 +12,10 @@ const languages = [
 ];
 
 const interests = [
-  { title: "Artificial Intelligence", icon: Brain, note: "Algorithms and applied AI" },
-  { title: "Machine Learning", icon: Cpu, note: "Systems that learn" },
-  { title: "Robotics", icon: Bot, note: "Automated solutions" },
-  { title: "Emerging Tech", icon: Sparkles, note: "What's next" },
+  { title: "Artificial Intelligence", icon: Brain, note: "Reading papers and trying things out" },
+  { title: "Machine Learning", icon: Cpu, note: "Models that get better with data" },
+  { title: "Robotics", icon: Bot, note: "Hardware that acts on its own" },
+  { title: "Emerging Tech", icon: Sparkles, note: "Keeping an eye on what's coming" },
 ];
 
 const Languages = () => {

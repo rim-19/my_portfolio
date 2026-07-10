@@ -6,9 +6,9 @@ import profileImage from "@/assets/rim-profile.jpg";
 const ease = [0.23, 1, 0.32, 1] as const;
 
 const traits = [
-  { icon: Lightbulb, title: "Problem Solving", note: "Turning ambiguity into shipped features." },
-  { icon: Users, title: "Leadership", note: "Guiding ideas from concept to delivery." },
-  { icon: Compass, title: "Adaptability", note: "Comfortable across the full stack." },
+  { icon: Lightbulb, title: "Problem Solving", note: "I like sorting out the unclear parts before any code gets written." },
+  { icon: Users, title: "Leadership", note: "Comfortable owning a project from the first sketch to launch." },
+  { icon: Compass, title: "Adaptability", note: "Happy anywhere in the stack, front to back." },
 ];
 
 const About = () => {
@@ -44,20 +44,21 @@ const About = () => {
               About
             </span>
             <h2 className="mt-3 font-display text-4xl font-semibold tracking-tight text-plum md:text-5xl">
-              Engineering with
-              <span className="italic text-gradient"> intention.</span>
+              Software that works in
+              <span className="italic text-gradient"> the real world.</span>
             </h2>
 
             <div className="mt-6 space-y-5 text-lg leading-relaxed text-muted-foreground">
               <p>
-                I&apos;m a software developer working at the intersection of web
-                development and artificial intelligence. I don&apos;t just build
-                applications, I design experiences that think, learn, and adapt.
+                I&apos;m a software developer based in Casablanca, and most of my
+                work sits between web development and AI. I like taking an idea and
+                turning it into something people can actually use, not just a demo.
               </p>
               <p>
-                From fine-tuned language models to full-stack platforms, I care
-                about the details that make software feel effortless, and about
-                shipping work that holds up in the real world.
+                I&apos;ve fine-tuned language models, wired up payment flows, and
+                built admin dashboards from scratch. Across all of it, I pay
+                attention to the parts users never really notice: error states,
+                edge cases, and the small things that make an app feel solid.
               </p>
             </div>
 

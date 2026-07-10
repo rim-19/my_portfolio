@@ -36,7 +36,7 @@ const Index = () => {
           <p className="font-display text-lg font-semibold text-plum">
             Rim<span className="text-primary">.</span>
           </p>
-          <p>© {new Date().getFullYear()} Rim Elrhezzal. Designed and built with care.</p>
+          <p>© {new Date().getFullYear()} Rim Elrhezzal. Designed and coded by me, in Casablanca.</p>
         </div>
       </footer>
     </motion.div>
