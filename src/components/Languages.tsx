@@ -1,59 +1,86 @@
-import { motion } from "framer-motion";
-import { useInView } from "framer-motion";
+import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
+import { Brain, Cpu, Bot, Sparkles } from "lucide-react";
+import SectionHeading from "./SectionHeading";
+
+const ease = [0.23, 1, 0.32, 1] as const;
+
+const languages = [
+  { name: "Arabic", level: "Native", flag: "🇲🇦" },
+  { name: "French", level: "Fluent", flag: "🇫🇷" },
+  { name: "English", level: "Advanced", flag: "🇬🇧" },
+];
+
+const interests = [
+  { title: "Artificial Intelligence", icon: Brain, note: "Algorithms and applied AI" },
+  { title: "Machine Learning", icon: Cpu, note: "Systems that learn" },
+  { title: "Robotics", icon: Bot, note: "Automated solutions" },
+  { title: "Emerging Tech", icon: Sparkles, note: "What's next" },
+];
 
 const Languages = () => {
   const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: "-100px" });
-
-  const languages = [
-    { name: "Arabic", level: "Native", flag: "🇲🇦", color: "lavender" },
-    { name: "English", level: "Advanced", flag: "🇬🇧", color: "mint" },
-    { name: "French", level: "Fluent", flag: "🇫🇷", color: "peach" },
-  ];
+  const inView = useInView(ref, { once: true, margin: "-100px" });
 
   return (
-    <section className="py-20 relative overflow-hidden bg-muted/30">
-      <div className="container mx-auto px-4">
-        <motion.div
-          ref={ref}
-          initial={{ opacity: 0, y: 50 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.8 }}
-        >
-          <h2 className="text-5xl font-bold text-center mb-16">
-            <span className="text-gradient">Languages</span>
-          </h2>
+    <section className="relative overflow-hidden bg-blush/40 py-24 md:py-32">
+      <div ref={ref} className="mx-auto max-w-5xl px-6">
+        <SectionHeading title="Beyond the code" />
 
-          <div className="grid md:grid-cols-3 gap-8 max-w-4xl mx-auto">
-            {languages.map((lang, index) => (
-              <motion.div
-                key={lang.name}
-                initial={{ opacity: 0, scale: 0.8, rotateY: 180 }}
-                animate={isInView ? { opacity: 1, scale: 1, rotateY: 0 } : {}}
-                transition={{ duration: 0.8, delay: index * 0.2 }}
-                whileHover={{ scale: 1.05, rotateY: 5 }}
-                className="glass p-8 rounded-3xl text-center hover:shadow-2xl transition-all duration-300"
-              >
-                <motion.div
-                  className="text-6xl mb-4"
-                  animate={{ rotate: [0, 10, -10, 0] }}
-                  transition={{ duration: 2, repeat: Infinity, delay: index * 0.3 }}
+        <div className="mt-14 grid gap-12 lg:grid-cols-[0.9fr_1.1fr] lg:gap-16">
+          {/* Languages */}
+          <motion.div
+            initial={{ opacity: 0, y: 24 }}
+            animate={inView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.6, ease }}
+          >
+            <h3 className="text-sm font-semibold uppercase tracking-[0.18em] text-primary">
+              Languages
+            </h3>
+            <div className="mt-6 space-y-3">
+              {languages.map((lang) => (
+                <div
+                  key={lang.name}
+                  className="flex items-center justify-between rounded-2xl border border-border bg-card/70 px-5 py-4 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-sm"
                 >
-                  {lang.flag}
+                  <div className="flex items-center gap-3">
+                    <span className="text-2xl" aria-hidden>{lang.flag}</span>
+                    <span className="font-display text-lg font-semibold text-plum">{lang.name}</span>
+                  </div>
+                  <span className="text-sm font-medium text-mauve">{lang.level}</span>
+                </div>
+              ))}
+            </div>
+          </motion.div>
+
+          {/* Interests */}
+          <motion.div
+            initial={{ opacity: 0, y: 24 }}
+            animate={inView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.6, delay: 0.12, ease }}
+          >
+            <h3 className="text-sm font-semibold uppercase tracking-[0.18em] text-primary">
+              Passions
+            </h3>
+            <div className="mt-6 grid gap-4 sm:grid-cols-2">
+              {interests.map((item, i) => (
+                <motion.div
+                  key={item.title}
+                  initial={{ opacity: 0, scale: 0.96 }}
+                  animate={inView ? { opacity: 1, scale: 1 } : {}}
+                  transition={{ duration: 0.45, delay: 0.2 + i * 0.08, ease }}
+                  className="group rounded-2xl border border-border bg-card/70 p-5 transition-all duration-300 hover:-translate-y-1 hover:border-primary/30 hover:shadow-sm"
+                >
+                  <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-primary/10 text-primary transition-colors duration-300 group-hover:bg-primary group-hover:text-primary-foreground">
+                    <item.icon className="h-5 w-5" strokeWidth={1.75} />
+                  </div>
+                  <p className="mt-4 font-semibold text-plum">{item.title}</p>
+                  <p className="mt-1 text-sm text-muted-foreground">{item.note}</p>
                 </motion.div>
-                <h3 className="text-2xl font-bold mb-2">{lang.name}</h3>
-                <p className={`text-lg font-medium ${
-                  lang.color === 'lavender' ? 'text-lavender' :
-                  lang.color === 'mint' ? 'text-mint' :
-                  'text-peach'
-                }`}>
-                  {lang.level}
-                </p>
-              </motion.div>
-            ))}
-          </div>
-        </motion.div>
+              ))}
+            </div>
+          </motion.div>
+        </div>
       </div>
     </section>
   );

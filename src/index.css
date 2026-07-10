@@ -2,64 +2,74 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
-All colors MUST be HSL.
-*/
+/* ============================================================
+   Design system — "Atelier Rim"
+   A refined, feminine editorial language: warm blush canvas,
+   one locked rose accent, deep plum ink, champagne for warmth.
+   Light theme, locked. All colors HSL.
+   ============================================================ */
 
 @layer base {
   :root {
-    --background: 0 0% 98%;
-    --foreground: 240 20% 15%;
+    /* Canvas + ink */
+    --background: 350 50% 99%;        /* barely-there blush white */
+    --foreground: 328 28% 18%;        /* deep plum ink (never pure black) */
 
-    --card: 0 0% 100%;
-    --card-foreground: 240 20% 15%;
+    --card: 350 60% 100%;
+    --card-foreground: 328 28% 18%;
 
-    --popover: 0 0% 100%;
-    --popover-foreground: 240 20% 15%;
+    --popover: 350 60% 100%;
+    --popover-foreground: 328 28% 18%;
 
-    --primary: 270 70% 55%;
-    --primary-foreground: 0 0% 100%;
+    /* THE locked accent — rich rose */
+    --primary: 340 58% 52%;
+    --primary-foreground: 350 60% 99%;
 
-    --secondary: 160 60% 45%;
-    --secondary-foreground: 0 0% 100%;
+    /* Deep plum — the serious anchor (headings, dark surfaces) */
+    --secondary: 325 30% 24%;
+    --secondary-foreground: 350 60% 99%;
 
-    --muted: 240 10% 95%;
-    --muted-foreground: 240 15% 35%;
+    --muted: 340 30% 96%;
+    --muted-foreground: 328 14% 44%;
 
-    --accent: 20 80% 80%;
-    --accent-foreground: 240 10% 20%;
+    /* Champagne — soft warmth, tints only, never a competing CTA */
+    --accent: 32 46% 90%;
+    --accent-foreground: 328 28% 22%;
 
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 0 0% 100%;
+    --destructive: 0 72% 55%;
+    --destructive-foreground: 350 60% 99%;
 
-    --border: 240 10% 90%;
-    --input: 240 10% 95%;
-    --ring: 270 60% 75%;
+    --border: 336 26% 91%;
+    --input: 336 26% 91%;
+    --ring: 340 58% 52%;
 
-    --radius: 1rem;
+    --radius: 1.25rem;
 
-    --lavender: 270 60% 85%;
-    --lavender-light: 270 60% 95%;
-    --mint: 160 50% 85%;
-    --mint-light: 160 50% 95%;
-    --peach: 20 80% 85%;
-    --peach-light: 20 80% 95%;
-    --sky: 200 70% 85%;
-    --sky-light: 200 70% 95%;
-    --pink: 340 70% 90%;
-    --pink-light: 340 70% 95%;
+    /* Feminine palette — soft, refined */
+    --rose: 340 58% 62%;
+    --rose-soft: 344 66% 92%;
+    --blush: 348 70% 95%;
+    --mauve: 318 24% 58%;
+    --mauve-soft: 318 34% 92%;
+    --plum: 325 30% 24%;
+    --champagne: 34 48% 84%;
+    --champagne-soft: 36 56% 94%;
 
-    --glass-bg: 0 0% 100% / 0.7;
-    --glass-border: 0 0% 100% / 0.3;
+    /* Glass — warm-tinted, not sterile white */
+    --glass-bg: 350 60% 100% / 0.62;
+    --glass-border: 340 50% 100% / 0.55;
 
-    --shadow-sm: 0 2px 8px hsl(240 10% 20% / 0.05);
-    --shadow-md: 0 4px 16px hsl(240 10% 20% / 0.08);
-    --shadow-lg: 0 8px 24px hsl(240 10% 20% / 0.12);
-    --shadow-glow: 0 0 20px hsl(var(--primary) / 0.3);
+    /* Shadows — tinted to the plum hue, never pure black */
+    --shadow-xs: 0 1px 2px hsl(328 30% 30% / 0.04);
+    --shadow-sm: 0 2px 10px hsl(328 30% 30% / 0.06);
+    --shadow-md: 0 10px 30px -8px hsl(330 40% 40% / 0.14);
+    --shadow-lg: 0 24px 60px -16px hsl(330 44% 44% / 0.22);
+    --shadow-rose: 0 20px 50px -18px hsl(340 58% 52% / 0.35);
 
-    --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    /* Motion — strong custom curves (weak built-ins need not apply) */
+    --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+    --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
   }
-
 }
 
 @layer base {
@@ -68,85 +78,113 @@ All colors MUST be HSL.
   }
 
   body {
-    @apply bg-background text-foreground;
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    @apply bg-background text-foreground antialiased;
+    font-family: 'Manrope', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-feature-settings: 'ss01', 'cv01';
   }
 
   html {
     scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  h1, h2, h3, h4 {
+    font-family: 'Playfair Display', Georgia, serif;
+  }
+
+  ::selection {
+    background: hsl(var(--rose) / 0.28);
+    color: hsl(var(--plum));
   }
 }
 
 @layer utilities {
+  .font-display {
+    font-family: 'Playfair Display', Georgia, serif;
+  }
+
+  /* Warm frosted glass with an inner highlight edge for real refraction */
   .glass {
     background: hsl(var(--glass-bg));
-    backdrop-filter: blur(12px);
+    backdrop-filter: blur(16px) saturate(150%);
+    -webkit-backdrop-filter: blur(16px) saturate(150%);
     border: 1px solid hsl(var(--glass-border));
+    box-shadow: var(--shadow-sm), inset 0 1px 0 hsl(0 0% 100% / 0.6);
   }
 
   .glass-strong {
-    background: hsl(var(--glass-bg));
-    backdrop-filter: blur(20px);
+    background: hsl(350 60% 100% / 0.82);
+    backdrop-filter: blur(22px) saturate(160%);
+    -webkit-backdrop-filter: blur(22px) saturate(160%);
     border: 1px solid hsl(var(--glass-border));
-  }
-
-  .neumorphic {
-    background: hsl(var(--background));
-    box-shadow: 8px 8px 16px hsl(240 10% 80%), 
-                -8px -8px 16px hsl(0 0% 100%);
-  }
-
-  .neumorphic-inset {
-    box-shadow: inset 4px 4px 8px hsl(240 10% 85%), 
-                inset -4px -4px 8px hsl(0 0% 100%);
-  }
-
-  .gradient-lavender {
-    background: linear-gradient(135deg, hsl(var(--lavender)), hsl(var(--lavender-light)));
-  }
-
-  .gradient-mint {
-    background: linear-gradient(135deg, hsl(var(--mint)), hsl(var(--mint-light)));
-  }
-
-  .gradient-peach {
-    background: linear-gradient(135deg, hsl(var(--peach)), hsl(var(--peach-light)));
-  }
-
-  .gradient-sky {
-    background: linear-gradient(135deg, hsl(var(--sky)), hsl(var(--sky-light)));
-  }
-
-  .gradient-multi {
-    background: linear-gradient(135deg, 
-      hsl(var(--lavender)) 0%, 
-      hsl(var(--mint)) 25%, 
-      hsl(var(--sky)) 50%, 
-      hsl(var(--peach)) 75%, 
-      hsl(var(--pink)) 100%);
+    box-shadow: var(--shadow-md), inset 0 1px 0 hsl(0 0% 100% / 0.7);
   }
 
   .text-gradient {
-    background: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--accent)));
+    background: linear-gradient(115deg, hsl(var(--rose)), hsl(var(--mauve)));
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
   }
 
-  .animate-float {
-    animation: float 3s ease-in-out infinite;
+  .text-gradient-ink {
+    background: linear-gradient(120deg, hsl(var(--plum)), hsl(var(--rose)));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
   }
 
-  .animate-float-delayed {
-    animation: float 3s ease-in-out 1s infinite;
+  .gradient-blush {
+    background: linear-gradient(150deg, hsl(var(--blush)), hsl(var(--champagne-soft)));
+  }
+
+  .gradient-rose {
+    background: linear-gradient(135deg, hsl(340 58% 62%), hsl(318 40% 66%));
+  }
+
+  /* Soft aura for hero / decorative glows */
+  .aura {
+    filter: blur(64px);
+    opacity: 0.55;
+  }
+
+  /* Reduced transparency fallback: solid warm fill */
+  @media (prefers-reduced-transparency: reduce) {
+    .glass, .glass-strong {
+      background: hsl(350 60% 99%);
+      backdrop-filter: none;
+      -webkit-backdrop-filter: none;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .animate-float,
+    .animate-float-slow,
+    .animate-drift {
+      animation: none;
+    }
+  }
+
+  .animate-float {
+    animation: float 7s var(--ease-in-out) infinite;
+  }
+
+  .animate-float-slow {
+    animation: float 11s var(--ease-in-out) infinite;
   }
 
   @keyframes float {
-    0%, 100% {
-      transform: translateY(0px);
-    }
-    50% {
-      transform: translateY(-20px);
-    }
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-16px); }
+  }
+
+  .animate-drift {
+    animation: drift 18s var(--ease-in-out) infinite;
+  }
+
+  @keyframes drift {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    33% { transform: translate(20px, -18px) scale(1.06); }
+    66% { transform: translate(-16px, 12px) scale(0.97); }
   }
 }

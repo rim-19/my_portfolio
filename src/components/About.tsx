@@ -1,81 +1,83 @@
-import { motion } from "framer-motion";
-import { useInView } from "framer-motion";
+import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
-import { Lightbulb, Users, Target } from "lucide-react";
+import { Lightbulb, Users, Compass } from "lucide-react";
 import profileImage from "@/assets/rim-profile.jpg";
+
+const ease = [0.23, 1, 0.32, 1] as const;
+
+const traits = [
+  { icon: Lightbulb, title: "Problem Solving", note: "Turning ambiguity into shipped features." },
+  { icon: Users, title: "Leadership", note: "Guiding ideas from concept to delivery." },
+  { icon: Compass, title: "Adaptability", note: "Comfortable across the full stack." },
+];
 
 const About = () => {
   const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: "-100px" });
-
-  const skills = [
-    { icon: Lightbulb, title: "Problem Solving", color: "lavender" },
-    { icon: Users, title: "Leadership", color: "mint" },
-    { icon: Target, title: "Adaptability", color: "peach" },
-  ];
+  const inView = useInView(ref, { once: true, margin: "-100px" });
 
   return (
-    <section id="about" className="py-20 relative overflow-hidden">
-      <div className="container mx-auto px-4">
-        <motion.div
-          ref={ref}
-          initial={{ opacity: 0, y: 50 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.8 }}
-        >
-          <h2 className="text-5xl font-bold text-center mb-16">
-            <span className="text-gradient">About Me</span>
-          </h2>
+    <section id="about" className="relative overflow-hidden py-24 md:py-32">
+      <div ref={ref} className="mx-auto max-w-6xl px-6">
+        <div className="grid items-center gap-14 md:grid-cols-[0.85fr_1.15fr] lg:gap-20">
+          {/* Portrait */}
+          <motion.div
+            initial={{ opacity: 0, x: -40 }}
+            animate={inView ? { opacity: 1, x: 0 } : {}}
+            transition={{ duration: 0.8, ease }}
+            className="relative mx-auto w-full max-w-xs"
+          >
+            <div className="absolute -inset-3 rounded-[2.25rem] gradient-rose opacity-20 blur-2xl" />
+            <img
+              src={profileImage}
+              alt="Rim Elrhezzal"
+              className="relative aspect-[4/5] w-full rounded-[1.75rem] border border-white/60 object-cover shadow-lg"
+            />
+          </motion.div>
 
-          <div className="grid md:grid-cols-2 gap-12 items-center max-w-6xl mx-auto">
-            {/* Image */}
-            <motion.div
-              initial={{ opacity: 0, x: -50 }}
-              animate={isInView ? { opacity: 1, x: 0 } : {}}
-              transition={{ duration: 0.8, delay: 0.2 }}
-              className="flex justify-center"
-            >
-              <div className="relative">
-                <div className="absolute inset-0 bg-primary/20 rounded-3xl blur-2xl" />
-                <img
-                  src={profileImage}
-                  alt="Rim Elrhezzal"
-                  className="relative rounded-3xl glass shadow-2xl w-80 h-80 object-cover"
-                />
-              </div>
-            </motion.div>
+          {/* Story */}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={inView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.8, delay: 0.15, ease }}
+          >
+            <span className="text-xs font-medium uppercase tracking-[0.2em] text-primary">
+              About
+            </span>
+            <h2 className="mt-3 font-display text-4xl font-semibold tracking-tight text-plum md:text-5xl">
+              Engineering with
+              <span className="italic text-gradient"> intention.</span>
+            </h2>
 
-            {/* Content */}
-            <motion.div
-              initial={{ opacity: 0, x: 50 }}
-              animate={isInView ? { opacity: 1, x: 0 } : {}}
-              transition={{ duration: 0.8, delay: 0.4 }}
-            >
-              <p className="text-lg text-foreground leading-relaxed mb-6">
-                ⚡ Code is my canvas, and AI is my paintbrush. I'm a software developer who sees every challenge as an opportunity to innovate and every project as a chance to push the boundaries of what's possible.
+            <div className="mt-6 space-y-5 text-lg leading-relaxed text-muted-foreground">
+              <p>
+                I&apos;m a software developer working at the intersection of web
+                development and artificial intelligence. I don&apos;t just build
+                applications, I design experiences that think, learn, and adapt.
               </p>
-              <p className="text-lg text-foreground leading-relaxed mb-8">
-                🚀 Currently diving deep into the fascinating intersection of web development and artificial intelligence. I don't just build applications—I create experiences that think, learn, and evolve. Ready to transform bold ideas into elegant, intelligent solutions that make a real impact!
+              <p>
+                From fine-tuned language models to full-stack platforms, I care
+                about the details that make software feel effortless, and about
+                shipping work that holds up in the real world.
               </p>
+            </div>
 
-              {/* Skills badges */}
-              <div className="flex flex-wrap gap-4">
-                {skills.map((skill, index) => (
-                  <motion.div
-                    key={skill.title}
-                    initial={{ opacity: 0, scale: 0.8 }}
-                    animate={isInView ? { opacity: 1, scale: 1 } : {}}
-                    transition={{ duration: 0.5, delay: 0.6 + index * 0.1 }}
-                    className={`glass p-4 rounded-2xl flex items-center gap-3 hover:scale-105 transition-transform duration-300`}
-                  >
-                    <skill.icon className={`w-6 h-6 text-${skill.color}`} />
-                    <span className="font-medium">{skill.title}</span>
-                  </motion.div>
-                ))}
-              </div>
-            </motion.div>
-          </div>
-        </motion.div>
+            <div className="mt-10 grid gap-4 sm:grid-cols-3">
+              {traits.map((t, i) => (
+                <motion.div
+                  key={t.title}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={inView ? { opacity: 1, y: 0 } : {}}
+                  transition={{ duration: 0.5, delay: 0.3 + i * 0.1, ease }}
+                  className="rounded-2xl border border-border bg-card/60 p-5 transition-all duration-300 hover:-translate-y-1 hover:border-primary/30 hover:shadow-md"
+                >
+                  <t.icon className="h-6 w-6 text-primary" strokeWidth={1.75} />
+                  <p className="mt-3 font-semibold text-plum">{t.title}</p>
+                  <p className="mt-1 text-sm leading-relaxed text-muted-foreground">{t.note}</p>
+                </motion.div>
+              ))}
+            </div>
+          </motion.div>
+        </div>
       </div>
     </section>
   );
