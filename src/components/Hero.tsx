@@ -2,6 +2,8 @@ import { motion } from "framer-motion";
 import { Download, ArrowUpRight, MapPin } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Tilt from "@/components/Tilt";
+import { SparklesText } from "@/components/SparklesText";
+import { Magnetic } from "@/components/Magnetic";
 import profileImage from "@/assets/rim-profile.jpg";
 import resumePdf from "../assets/Resume_RimElrhezzal.pdf";
 
@@ -15,6 +17,7 @@ const Hero = () => {
     <section className="relative flex min-h-[100dvh] items-center overflow-hidden pt-24">
       {/* Soft feminine auras: decorative, motivated by warmth/depth */}
       <div className="pointer-events-none absolute inset-0 gradient-blush" />
+      <div className="aurora-fx pointer-events-none absolute inset-0" />
       <div className="pointer-events-none absolute -left-32 top-24 h-[30rem] w-[30rem] rounded-full bg-rose-soft aura animate-drift" />
       <div className="pointer-events-none absolute -right-24 bottom-0 h-[26rem] w-[26rem] rounded-full bg-mauve-soft aura animate-float-slow" />
 
@@ -37,9 +40,11 @@ const Hero = () => {
             transition={{ duration: 0.75, delay: 0.08, ease }}
             className="mt-6 font-display text-5xl font-semibold leading-[1.05] tracking-tight text-plum md:text-6xl lg:text-7xl"
           >
-            Rim
-            <br />
-            <span className="italic text-gradient">Elrhezzal</span>
+            <SparklesText count={14}>
+              Rim
+              <br />
+              <span className="italic text-gradient">Elrhezzal</span>
+            </SparklesText>
           </motion.h1>
 
           <motion.p
@@ -58,14 +63,18 @@ const Hero = () => {
             transition={{ duration: 0.7, delay: 0.28, ease }}
             className="mt-8 flex flex-wrap items-center gap-3"
           >
-            <Button variant="gradient" size="lg" onClick={() => scrollTo("projects")}>
-              View my work
-              <ArrowUpRight className="h-4 w-4" />
-            </Button>
-            <Button variant="outline" size="lg" onClick={() => window.open(resumePdf, "_blank")}>
-              <Download className="h-4 w-4" />
-              Resume
-            </Button>
+            <Magnetic strength={0.5}>
+              <Button variant="gradient" size="lg" onClick={() => scrollTo("projects")}>
+                View my work
+                <ArrowUpRight className="h-4 w-4" />
+              </Button>
+            </Magnetic>
+            <Magnetic strength={0.5}>
+              <Button variant="outline" size="lg" onClick={() => window.open(resumePdf, "_blank")}>
+                <Download className="h-4 w-4" />
+                Resume
+              </Button>
+            </Magnetic>
           </motion.div>
 
           <motion.div
