@@ -4,10 +4,32 @@ import { Button } from "@/components/ui/button";
 import Tilt from "@/components/Tilt";
 import { SparklesText } from "@/components/SparklesText";
 import { Magnetic } from "@/components/Magnetic";
+import { CountUp } from "@/components/CountUp";
 import profileImage from "@/assets/rim-profile.webp";
 import resumePdf from "../assets/Resume_RimElrhezzal.pdf";
 
 const ease = [0.23, 1, 0.32, 1] as const;
+
+// Kinetic headline: reveal each character with a staggered rise + flip + de-blur.
+// (SplitText-equivalent from the skill's Complex motion tier, done in framer.)
+const headlineContainer = {
+  hidden: {},
+  show: { transition: { staggerChildren: 0.035, delayChildren: 0.15 } },
+};
+const headlineChar = {
+  hidden: { opacity: 0, y: "0.5em", rotateX: -55, filter: "blur(4px)" },
+  show: { opacity: 1, y: 0, rotateX: 0, filter: "blur(0px)", transition: { duration: 0.55, ease } },
+};
+
+const Chars = ({ text, charClass = "" }: { text: string; charClass?: string }) => (
+  <span className="inline-block" style={{ perspective: 600 }}>
+    {text.split("").map((c, i) => (
+      <motion.span key={i} variants={headlineChar} className={`inline-block ${charClass}`}>
+        {c}
+      </motion.span>
+    ))}
+  </span>
+);
 
 const Hero = () => {
   const scrollTo = (id: string) =>
@@ -35,15 +57,16 @@ const Hero = () => {
           </motion.span>
 
           <motion.h1
-            initial={{ opacity: 0, y: 22 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.75, delay: 0.08, ease }}
+            variants={headlineContainer}
+            initial="hidden"
+            animate="show"
+            aria-label="Rim Elrhezzal"
             className="mt-6 font-display text-5xl font-semibold leading-[1.05] tracking-tight text-plum md:text-6xl lg:text-7xl"
           >
             <SparklesText count={14}>
-              Rim
+              <Chars text="Rim" />
               <br />
-              <span className="italic text-gradient">Elrhezzal</span>
+              <Chars text="Elrhezzal" charClass="italic text-gradient" />
             </SparklesText>
           </motion.h1>
 
@@ -118,7 +141,9 @@ const Hero = () => {
               style={{ z: 55 }}
               className="glass-strong absolute -bottom-5 -left-5 z-20 rounded-2xl px-5 py-3.5"
             >
-              <p className="font-display text-2xl font-semibold text-plum">8</p>
+              <p className="font-display text-2xl font-semibold text-plum">
+                <CountUp to={8} />
+              </p>
               <p className="text-xs text-muted-foreground">Shipped projects</p>
             </motion.div>
           </Tilt>

@@ -237,9 +237,9 @@ const Projects = () => {
           {gridProjects.map((project, i) => (
             <motion.div
               key={`${filter}-${project.id}`}
-              initial={{ opacity: 0, y: 28 }}
-              animate={inView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.5, delay: i * 0.06, ease }}
+              initial={{ opacity: 0, y: 16, scale: 0.92 }}
+              animate={inView ? { opacity: 1, y: 0, scale: 1 } : {}}
+              transition={{ duration: 0.5, delay: i * 0.06, ease: [0.34, 1.56, 0.64, 1] }}
             >
               <Tilt max={8} perspective={900} radius="1.5rem" glare className="h-full">
                 <button
