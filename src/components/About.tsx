@@ -57,12 +57,34 @@ const About = () => {
             transition={{ duration: 0.8, ease }}
             className="relative mx-auto w-full max-w-sm md:sticky md:top-28 lg:max-w-md"
           >
-            <div className="absolute -inset-3 rounded-[2.25rem] gradient-rose opacity-20 blur-2xl" />
+            {/* Ambient rotating aura — keeps moving while you read */}
+            <div className="pointer-events-none absolute -inset-5 rounded-[2.75rem] opacity-30 blur-2xl [background:conic-gradient(from_0deg,hsl(var(--rose)),hsl(var(--mauve)),hsl(var(--champagne)),hsl(var(--rose)))] motion-safe:animate-[spin_16s_linear_infinite]" />
             <img
               src={profileImage}
               alt="Rim Elrhezzal"
               className="relative aspect-[4/5] w-full rounded-[1.75rem] border border-white/60 object-cover shadow-lg"
             />
+            {/* Floating twinkles */}
+            {[
+              { top: "-5%", left: "-4%", size: 22, delay: "0s", color: "hsl(var(--rose))" },
+              { top: "72%", left: "-7%", size: 15, delay: "1.1s", color: "hsl(var(--champagne))" },
+              { top: "10%", left: "95%", size: 18, delay: "0.6s", color: "hsl(var(--mauve))" },
+              { top: "88%", left: "88%", size: 13, delay: "1.7s", color: "hsl(var(--rose))" },
+            ].map((s, i) => (
+              <svg
+                key={i}
+                aria-hidden
+                className="kitty-sparkle pointer-events-none absolute z-10"
+                style={{ top: s.top, left: s.left, width: s.size, height: s.size, color: s.color, animationDelay: s.delay }}
+                viewBox="0 0 68 68"
+                fill="none"
+              >
+                <path
+                  d="M34 0c1.5 18.3 15.7 32.5 34 34-18.3 1.5-32.5 15.7-34 34-1.5-18.3-15.7-32.5-34-34C18.3 32.5 32.5 18.3 34 0Z"
+                  fill="currentColor"
+                />
+              </svg>
+            ))}
           </motion.div>
 
           {/* Story */}
