@@ -7,7 +7,7 @@ const ease = [0.23, 1, 0.32, 1] as const;
 
 const languages = [
   { name: "Arabic", level: "Native", flag: "🇲🇦" },
-  { name: "French", level: "Fluent", flag: "🇫🇷" },
+  { name: "French", level: "Advanced", flag: "🇫🇷" },
   { name: "English", level: "Advanced", flag: "🇬🇧" },
 ];
 

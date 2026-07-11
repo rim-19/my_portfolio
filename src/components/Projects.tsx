@@ -126,8 +126,8 @@ const Projects = () => {
       <div ref={ref} className="mx-auto max-w-6xl px-6">
         <SectionHeading
           eyebrow="Selected work"
-          title="Things I've built"
-          subtitle="A few things I've designed and built, from AI tools to full online stores."
+          title="Work I'm proud of"
+          subtitle="Real products I designed and built end to end, from AI tools to full online stores."
           align="left"
         />
 

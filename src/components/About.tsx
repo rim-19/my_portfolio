@@ -48,17 +48,33 @@ const About = () => {
               <span className="italic text-gradient"> the real world.</span>
             </h2>
 
-            <div className="mt-6 space-y-5 text-lg leading-relaxed text-muted-foreground">
+            <div className="mt-6 space-y-4 text-base leading-relaxed text-muted-foreground md:text-lg">
               <p>
-                I&apos;m a software developer based in Casablanca, and most of my
-                work sits between web development and AI. I like taking an idea and
-                turning it into something people can actually use, not just a demo.
+                I&apos;m a software developer based in Casablanca, building at the
+                intersection of web development and AI. I love taking ideas from the
+                first sketch to products that people can genuinely enjoy using:
+                clean, thoughtful, and built with purpose.
               </p>
               <p>
-                I&apos;ve fine-tuned language models, wired up payment flows, and
-                built admin dashboards from scratch. Across all of it, I pay
-                attention to the parts users never really notice: error states,
-                edge cases, and the small things that make an app feel solid.
+                Over the past few years, I&apos;ve developed AI-powered platforms,
+                fine-tuned language models, built intelligent chatbots, integrated
+                secure payments with Stripe, and created full-stack applications
+                with custom admin dashboards. Whether it&apos;s an AI exam generator,
+                an HR automation platform, or an e-commerce experience, I enjoy
+                transforming complex ideas into simple, intuitive solutions.
+              </p>
+              <p>
+                I&apos;m naturally detail-oriented, which means I care just as much
+                about the little things as the big ones. From graceful error
+                handling and edge cases to smooth interactions and polished
+                interfaces, I believe those invisible details are what make software
+                feel reliable and effortless.
+              </p>
+              <p>
+                For me, great development is a blend of creativity, problem-solving,
+                and empathy. I enjoy learning new technologies, experimenting with
+                AI, and building products that are not only functional but genuinely
+                delightful to use.
               </p>
             </div>
 
