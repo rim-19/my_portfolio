@@ -18,6 +18,30 @@ const bio = [
   "For me, great development is a blend of creativity, problem-solving, and empathy. I enjoy learning new technologies, experimenting with AI, and building products that are not only functional but genuinely delightful to use.",
 ];
 
+const headingContainer = {
+  hidden: {},
+  show: { transition: { staggerChildren: 0.08, delayChildren: 0.1 } },
+};
+const wordVariant = {
+  hidden: { opacity: 0, y: "0.5em", filter: "blur(6px)" },
+  show: { opacity: 1, y: 0, filter: "blur(0px)", transition: { duration: 0.55, ease } },
+};
+
+const Words = ({ text, className = "" }: { text: string; className?: string }) => (
+  <>
+    {text.split(" ").map((word, i) => (
+      <motion.span
+        key={i}
+        variants={wordVariant}
+        className={`inline-block ${className}`}
+        style={{ marginRight: "0.25em" }}
+      >
+        {word}
+      </motion.span>
+    ))}
+  </>
+);
+
 const About = () => {
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, margin: "-100px" });
@@ -50,10 +74,16 @@ const About = () => {
             <span className="text-xs font-medium uppercase tracking-[0.2em] text-primary">
               About
             </span>
-            <h2 className="mt-3 font-display text-4xl font-semibold tracking-tight text-plum md:text-5xl">
-              Software that works in
-              <span className="italic text-gradient"> the real world.</span>
-            </h2>
+            <motion.h2
+              variants={headingContainer}
+              initial="hidden"
+              animate={inView ? "show" : "hidden"}
+              aria-label="Software that works in the real world."
+              className="mt-3 font-display text-4xl font-semibold tracking-tight text-plum md:text-5xl"
+            >
+              <Words text="Software that works in" />
+              <Words text="the real world." className="italic text-gradient" />
+            </motion.h2>
 
             <div className="mt-6 space-y-4 text-[0.9rem] leading-relaxed text-muted-foreground md:text-[0.95rem]">
               {bio.map((para, i) => (
