@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import Tilt from "@/components/Tilt";
 import { SparklesText } from "@/components/SparklesText";
 import { Magnetic } from "@/components/Magnetic";
-import profileImage from "@/assets/rim-profile.jpg";
+import profileImage from "@/assets/rim-profile.webp";
 import resumePdf from "../assets/Resume_RimElrhezzal.pdf";
 
 const ease = [0.23, 1, 0.32, 1] as const;

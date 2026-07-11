@@ -1,5 +1,5 @@
 import { motion, useInView } from "framer-motion";
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import { MessageSquare, ShoppingBag, FileText, ArrowUpRight, Globe, Database, Users, Coffee } from "lucide-react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
@@ -130,6 +130,16 @@ const Projects = () => {
   const inView = useInView(ref, { once: true, margin: "-100px" });
   const [selected, setSelected] = useState<Project | null>(null);
   const [filter, setFilter] = useState("All");
+  const [previewLoaded, setPreviewLoaded] = useState(false);
+
+  // Reset the preview skeleton each time a linked project opens; clear it after
+  // a few seconds even if the site blocks embedding so it never hangs.
+  useEffect(() => {
+    if (!selected?.link) return;
+    setPreviewLoaded(false);
+    const t = setTimeout(() => setPreviewLoaded(true), 4000);
+    return () => clearTimeout(t);
+  }, [selected]);
 
   const [f1, f2, ...rest] = projects;
   const featuredList = [f1, f2];
@@ -295,14 +305,28 @@ const Projects = () => {
                     {selected.link.replace(/^https?:\/\//, "").replace(/\/$/, "")}
                   </span>
                 </div>
-                <iframe
-                  src={selected.link}
-                  title={`${selected.title} live preview`}
-                  loading="lazy"
-                  sandbox="allow-scripts allow-same-origin allow-popups allow-forms"
-                  className="h-[300px] w-full bg-white sm:h-[360px]"
-                />
+                <div className="relative h-[300px] w-full sm:h-[360px]">
+                  {!previewLoaded && (
+                    <div className="absolute inset-0 z-10 flex flex-col items-center justify-center gap-3 bg-muted">
+                      <div className="h-8 w-8 animate-spin rounded-full border-2 border-primary/25 border-t-primary" />
+                      <span className="text-xs text-muted-foreground">Loading live preview…</span>
+                    </div>
+                  )}
+                  <iframe
+                    src={selected.link}
+                    title={`${selected.title} live preview`}
+                    loading="lazy"
+                    onLoad={() => setPreviewLoaded(true)}
+                    sandbox="allow-scripts allow-same-origin allow-popups allow-forms"
+                    className="h-full w-full bg-white"
+                  />
+                </div>
               </motion.div>
+            )}
+            {selected?.link && (
+              <p className="-mt-2 text-center text-xs text-muted-foreground">
+                Some sites block embedding. If the preview stays blank, open the live site below.
+              </p>
             )}
 
             <p className="text-[0.95rem] leading-relaxed text-foreground">{selected?.details}</p>

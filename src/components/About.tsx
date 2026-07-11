@@ -1,7 +1,7 @@
 import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
 import { Lightbulb, Users, Compass } from "lucide-react";
-import profileImage from "@/assets/rim-profile.jpg";
+import profileImage from "@/assets/rim-profile.webp";
 
 const ease = [0.23, 1, 0.32, 1] as const;
 
