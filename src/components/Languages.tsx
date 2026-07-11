@@ -23,7 +23,7 @@ const Languages = () => {
   const inView = useInView(ref, { once: true, margin: "-100px" });
 
   return (
-    <section className="relative overflow-hidden bg-blush/40 py-24 md:py-32">
+    <section className="relative overflow-hidden bg-blush/40 py-16 md:py-32">
       <div ref={ref} className="mx-auto max-w-5xl px-6">
         <SectionHeading title="Beyond the code" />
 

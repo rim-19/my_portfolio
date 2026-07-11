@@ -67,7 +67,7 @@ const Certifications = () => {
   const inView = useInView(ref, { once: true, margin: "-100px" });
 
   return (
-    <section id="certifications" className="relative overflow-hidden py-24 md:py-32">
+    <section id="certifications" className="relative overflow-hidden py-16 md:py-32">
       <div ref={ref} className="mx-auto max-w-6xl px-6">
         <SectionHeading
           title="Certifications"

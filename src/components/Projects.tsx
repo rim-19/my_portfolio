@@ -146,7 +146,7 @@ const Projects = () => {
   const gridProjects = filter === "All" ? rest : projects.filter((p) => CATEGORY[p.id] === filter);
 
   return (
-    <section id="projects" className="relative overflow-hidden py-24 md:py-32">
+    <section id="projects" className="relative overflow-hidden py-16 md:py-32">
       <div ref={ref} className="mx-auto max-w-6xl px-6">
         <SectionHeading
           eyebrow="Selected work"
@@ -162,7 +162,7 @@ const Projects = () => {
               key={cat}
               onClick={() => setFilter(cat)}
               aria-pressed={filter === cat}
-              className={`relative rounded-full px-4 py-2 text-sm font-medium transition-colors duration-200 focus-ring cursor-pointer ${
+              className={`relative rounded-full px-4 py-2.5 text-sm font-medium transition-colors duration-200 focus-ring cursor-pointer ${
                 filter === cat ? "text-primary-foreground" : "text-muted-foreground hover:text-primary"
               }`}
             >

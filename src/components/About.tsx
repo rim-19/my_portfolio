@@ -47,7 +47,7 @@ const About = () => {
   const inView = useInView(ref, { once: true, margin: "-100px" });
 
   return (
-    <section id="about" className="relative overflow-hidden py-24 md:py-32">
+    <section id="about" className="relative overflow-hidden py-16 md:py-32">
       <div ref={ref} className="mx-auto max-w-6xl px-6">
         <div className="grid items-start gap-14 md:grid-cols-[1fr_1.05fr] lg:gap-20">
           {/* Portrait — sticks while the story scrolls past */}

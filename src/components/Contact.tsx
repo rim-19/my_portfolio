@@ -16,13 +16,13 @@ const Contact = () => {
   const inView = useInView(ref, { once: true, margin: "-100px" });
 
   return (
-    <section id="contact" className="relative overflow-hidden py-24 md:py-32">
+    <section id="contact" className="relative overflow-hidden py-16 md:py-32">
       <div ref={ref} className="mx-auto max-w-5xl px-6">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.7, ease }}
-          className="relative overflow-hidden rounded-[2.5rem] border border-primary/15 gradient-blush p-10 md:p-16"
+          className="relative overflow-hidden rounded-[2.5rem] border border-primary/15 gradient-blush p-6 sm:p-10 md:p-16"
         >
           <div className="pointer-events-none absolute -right-16 -top-16 h-64 w-64 rounded-full bg-rose-soft aura" />
 
