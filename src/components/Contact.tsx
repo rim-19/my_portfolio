@@ -42,7 +42,7 @@ const Contact = () => {
               </p>
               <a
                 href="mailto:elrhezzalrim@gmail.com"
-                className="mt-8 inline-flex items-center gap-2 rounded-full bg-primary px-6 py-3 text-sm font-medium text-primary-foreground shadow-rose transition-transform duration-200 ease-out-strong hover:-translate-y-0.5 active:scale-[0.97]"
+                className="mt-8 inline-flex items-center gap-2 rounded-full bg-primary px-6 py-3 text-sm font-medium text-primary-foreground shadow-rose transition-transform duration-200 ease-out-strong hover:-translate-y-0.5 active:scale-[0.97] focus-ring"
               >
                 <Mail className="h-4 w-4" />
                 Send me an email
@@ -68,7 +68,7 @@ const Contact = () => {
                           }
                         : {})}
                       className={`group flex items-center gap-4 rounded-2xl border border-white/60 bg-white/50 px-5 py-4 transition-all duration-300 ${
-                        info.href ? "hover:-translate-y-0.5 hover:border-primary/30 hover:shadow-sm" : ""
+                        info.href ? "hover:-translate-y-0.5 hover:border-primary/30 hover:shadow-sm focus-ring cursor-pointer" : ""
                       }`}
                     >
                       <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-primary/10 text-primary">

@@ -41,7 +41,7 @@ const Navbar = () => {
       >
         <button
           onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-          className="group flex items-center gap-2 font-display text-lg font-semibold tracking-tight text-plum"
+          className="group flex items-center gap-2 rounded-full font-display text-lg font-semibold tracking-tight text-plum focus-ring cursor-pointer"
         >
           <KittyLogo className="h-7 w-7 transition-transform duration-300 ease-out-strong group-hover:-rotate-6 group-hover:scale-110" />
           <span>Rim<span className="text-primary">.</span></span>
@@ -52,7 +52,7 @@ const Navbar = () => {
             <button
               key={l.id}
               onClick={() => go(l.id)}
-              className="rounded-full px-3.5 py-2 text-sm font-medium text-muted-foreground transition-colors duration-200 hover:text-primary"
+              className="rounded-full px-3.5 py-2 text-sm font-medium text-muted-foreground transition-colors duration-200 hover:text-primary focus-ring cursor-pointer"
             >
               {l.label}
             </button>
@@ -61,7 +61,7 @@ const Navbar = () => {
 
         <button
           onClick={() => go("contact")}
-          className="hidden rounded-full bg-primary px-5 py-2 text-sm font-medium text-primary-foreground shadow-[0_10px_26px_-12px_hsl(340_58%_52%/0.7)] transition-transform duration-200 ease-out-strong hover:-translate-y-0.5 active:scale-[0.97] md:inline-flex"
+          className="hidden rounded-full bg-primary px-5 py-2 text-sm font-medium text-primary-foreground shadow-[0_10px_26px_-12px_hsl(340_58%_52%/0.7)] transition-transform duration-200 ease-out-strong hover:-translate-y-0.5 active:scale-[0.97] focus-ring cursor-pointer md:inline-flex"
         >
           Let&apos;s talk
         </button>
@@ -69,7 +69,7 @@ const Navbar = () => {
         <button
           onClick={() => setOpen((v) => !v)}
           aria-label="Toggle menu"
-          className="inline-flex h-10 w-10 items-center justify-center rounded-full text-plum md:hidden"
+          className="inline-flex h-11 w-11 items-center justify-center rounded-full text-plum focus-ring cursor-pointer md:hidden"
         >
           {open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
         </button>
@@ -89,7 +89,7 @@ const Navbar = () => {
                 <button
                   key={l.id}
                   onClick={() => go(l.id)}
-                  className="rounded-2xl px-4 py-3 text-left text-[0.95rem] font-medium text-foreground transition-colors hover:bg-primary/8 hover:text-primary"
+                  className="rounded-2xl px-4 py-3 text-left text-[0.95rem] font-medium text-foreground transition-colors hover:bg-primary/8 hover:text-primary focus-ring cursor-pointer"
                 >
                   {l.label}
                 </button>

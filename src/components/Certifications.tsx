@@ -85,7 +85,7 @@ const Certifications = () => {
             >
               <button
                 onClick={() => window.open(cert.image, "_blank")}
-                className="relative block overflow-hidden"
+                className="relative block overflow-hidden focus-ring cursor-pointer"
                 aria-label={`View ${cert.title} full size`}
               >
                 <img
@@ -116,7 +116,7 @@ const Certifications = () => {
                     href={cert.verificationUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="mt-4 inline-flex items-center gap-1.5 text-sm font-semibold text-primary"
+                    className="mt-4 inline-flex items-center gap-1.5 rounded-full text-sm font-semibold text-primary focus-ring"
                   >
                     <Award className="h-4 w-4" />
                     Verify certificate

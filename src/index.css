@@ -103,6 +103,14 @@
     font-family: 'Playfair Display', Georgia, serif;
   }
 
+  /* Accessible keyboard focus ring (offset via layered box-shadow) */
+  .focus-ring {
+    outline: none;
+  }
+  .focus-ring:focus-visible {
+    box-shadow: 0 0 0 2px hsl(var(--background)), 0 0 0 4px hsl(var(--ring));
+  }
+
   /* Warm frosted glass with an inner highlight edge for real refraction */
   .glass {
     background: hsl(var(--glass-bg));

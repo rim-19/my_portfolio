@@ -113,13 +113,27 @@ const projects: Project[] = [
   },
 ];
 
+const CATEGORY: Record<number, string> = {
+  1: "AI",
+  2: "AI",
+  3: "AI",
+  7: "AI",
+  8: "E-commerce",
+  4: "E-commerce",
+  5: "E-commerce",
+  6: "Desktop",
+};
+const CATEGORIES = ["All", "AI", "E-commerce", "Desktop"];
+
 const Projects = () => {
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, margin: "-100px" });
   const [selected, setSelected] = useState<Project | null>(null);
+  const [filter, setFilter] = useState("All");
 
   const [f1, f2, ...rest] = projects;
   const featuredList = [f1, f2];
+  const gridProjects = filter === "All" ? rest : projects.filter((p) => CATEGORY[p.id] === filter);
 
   return (
     <section id="projects" className="relative overflow-hidden py-24 md:py-32">
@@ -131,8 +145,32 @@ const Projects = () => {
           align="left"
         />
 
-        {/* Featured projects */}
-        <div className="mt-12 space-y-6">
+        {/* Category filter */}
+        <div className="mt-8 flex flex-wrap gap-2">
+          {CATEGORIES.map((cat) => (
+            <button
+              key={cat}
+              onClick={() => setFilter(cat)}
+              aria-pressed={filter === cat}
+              className={`relative rounded-full px-4 py-2 text-sm font-medium transition-colors duration-200 focus-ring cursor-pointer ${
+                filter === cat ? "text-primary-foreground" : "text-muted-foreground hover:text-primary"
+              }`}
+            >
+              {filter === cat && (
+                <motion.span
+                  layoutId="filterPill"
+                  className="absolute inset-0 rounded-full bg-primary"
+                  transition={{ type: "spring", stiffness: 400, damping: 32 }}
+                />
+              )}
+              <span className="relative z-10">{cat}</span>
+            </button>
+          ))}
+        </div>
+
+        {/* Featured projects (only in the unfiltered view) */}
+        {filter === "All" && (
+        <div className="mt-8 space-y-6">
           {featuredList.map((project, idx) => (
             <motion.div
               key={project.id}
@@ -143,7 +181,7 @@ const Projects = () => {
               <Tilt max={4} perspective={1400} radius="1.5rem" glare className="w-full">
                 <button
                   onClick={() => setSelected(project)}
-                  className={`group grid w-full gap-8 overflow-hidden rounded-3xl border border-primary/15 bg-gradient-to-br from-card via-card to-blush/50 p-8 text-left shadow-sm transition-shadow duration-300 hover:shadow-lg md:p-10 ${
+                  className={`group grid w-full gap-8 overflow-hidden rounded-3xl border border-primary/15 bg-gradient-to-br from-card via-card to-blush/50 p-8 text-left shadow-sm transition-shadow duration-300 hover:shadow-lg focus-ring cursor-pointer md:p-10 ${
                     idx % 2 === 0 ? "md:grid-cols-[1fr_1.4fr]" : "md:grid-cols-[1.4fr_1fr]"
                   }`}
                 >
@@ -182,20 +220,21 @@ const Projects = () => {
             </motion.div>
           ))}
         </div>
+        )}
 
         {/* Grid */}
         <div className="mt-6 grid gap-6 md:grid-cols-2">
-          {rest.map((project, i) => (
+          {gridProjects.map((project, i) => (
             <motion.div
-              key={project.id}
+              key={`${filter}-${project.id}`}
               initial={{ opacity: 0, y: 28 }}
               animate={inView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.55, delay: 0.1 + i * 0.08, ease }}
+              transition={{ duration: 0.5, delay: i * 0.06, ease }}
             >
               <Tilt max={8} perspective={900} radius="1.5rem" glare className="h-full">
                 <button
                   onClick={() => setSelected(project)}
-                  className="group flex h-full w-full flex-col rounded-3xl border border-border bg-card/70 p-7 text-left shadow-sm transition-[border-color,box-shadow] duration-300 hover:border-primary/30 hover:shadow-lg"
+                  className="group flex h-full w-full flex-col rounded-3xl border border-border bg-card/70 p-7 text-left shadow-sm transition-[border-color,box-shadow] duration-300 hover:border-primary/30 hover:shadow-lg focus-ring cursor-pointer"
                 >
               <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-primary/10 text-primary transition-colors duration-300 group-hover:bg-primary group-hover:text-primary-foreground">
                 <project.icon className="h-6 w-6" strokeWidth={1.75} />

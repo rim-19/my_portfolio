@@ -11,6 +11,13 @@ const traits = [
   { icon: Compass, title: "Adaptability", note: "Happy anywhere in the stack, front to back." },
 ];
 
+const bio = [
+  "I'm a software developer based in Casablanca, building at the intersection of web development and AI. I love taking ideas from the first sketch to products that people can genuinely enjoy using: clean, thoughtful, and built with purpose.",
+  "Over the past few years, I've developed AI-powered platforms, fine-tuned language models, built intelligent chatbots, integrated secure payments with Stripe, and created full-stack applications with custom admin dashboards. Whether it's an AI exam generator, an HR automation platform, or an e-commerce experience, I enjoy transforming complex ideas into simple, intuitive solutions.",
+  "I'm naturally detail-oriented, which means I care just as much about the little things as the big ones. From graceful error handling and edge cases to smooth interactions and polished interfaces, I believe those invisible details are what make software feel reliable and effortless.",
+  "For me, great development is a blend of creativity, problem-solving, and empathy. I enjoy learning new technologies, experimenting with AI, and building products that are not only functional but genuinely delightful to use.",
+];
+
 const About = () => {
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, margin: "-100px" });
@@ -18,13 +25,13 @@ const About = () => {
   return (
     <section id="about" className="relative overflow-hidden py-24 md:py-32">
       <div ref={ref} className="mx-auto max-w-6xl px-6">
-        <div className="grid items-start gap-14 md:grid-cols-[0.85fr_1.15fr] lg:gap-20">
+        <div className="grid items-start gap-14 md:grid-cols-[1fr_1.05fr] lg:gap-20">
           {/* Portrait — sticks while the story scrolls past */}
           <motion.div
             initial={{ opacity: 0, x: -40 }}
             animate={inView ? { opacity: 1, x: 0 } : {}}
             transition={{ duration: 0.8, ease }}
-            className="relative mx-auto w-full max-w-xs md:sticky md:top-28"
+            className="relative mx-auto w-full max-w-sm md:sticky md:top-28 lg:max-w-md"
           >
             <div className="absolute -inset-3 rounded-[2.25rem] gradient-rose opacity-20 blur-2xl" />
             <img
@@ -48,34 +55,17 @@ const About = () => {
               <span className="italic text-gradient"> the real world.</span>
             </h2>
 
-            <div className="mt-6 space-y-4 text-base leading-relaxed text-muted-foreground md:text-lg">
-              <p>
-                I&apos;m a software developer based in Casablanca, building at the
-                intersection of web development and AI. I love taking ideas from the
-                first sketch to products that people can genuinely enjoy using:
-                clean, thoughtful, and built with purpose.
-              </p>
-              <p>
-                Over the past few years, I&apos;ve developed AI-powered platforms,
-                fine-tuned language models, built intelligent chatbots, integrated
-                secure payments with Stripe, and created full-stack applications
-                with custom admin dashboards. Whether it&apos;s an AI exam generator,
-                an HR automation platform, or an e-commerce experience, I enjoy
-                transforming complex ideas into simple, intuitive solutions.
-              </p>
-              <p>
-                I&apos;m naturally detail-oriented, which means I care just as much
-                about the little things as the big ones. From graceful error
-                handling and edge cases to smooth interactions and polished
-                interfaces, I believe those invisible details are what make software
-                feel reliable and effortless.
-              </p>
-              <p>
-                For me, great development is a blend of creativity, problem-solving,
-                and empathy. I enjoy learning new technologies, experimenting with
-                AI, and building products that are not only functional but genuinely
-                delightful to use.
-              </p>
+            <div className="mt-6 space-y-4 text-[0.9rem] leading-relaxed text-muted-foreground md:text-[0.95rem]">
+              {bio.map((para, i) => (
+                <motion.p
+                  key={i}
+                  initial={{ opacity: 0, y: 16, filter: "blur(6px)" }}
+                  animate={inView ? { opacity: 1, y: 0, filter: "blur(0px)" } : {}}
+                  transition={{ duration: 0.6, delay: 0.3 + i * 0.15, ease }}
+                >
+                  {para}
+                </motion.p>
+              ))}
             </div>
 
             <div className="mt-10 grid gap-4 sm:grid-cols-3">
