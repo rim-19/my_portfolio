@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X } from "lucide-react";
+import KittyLogo from "./KittyLogo";
 
 const links = [
   { label: "About", id: "about" },
@@ -40,9 +41,10 @@ const Navbar = () => {
       >
         <button
           onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-          className="font-display text-lg font-semibold tracking-tight text-plum"
+          className="group flex items-center gap-2 font-display text-lg font-semibold tracking-tight text-plum"
         >
-          Rim<span className="text-primary">.</span>
+          <KittyLogo className="h-7 w-7 transition-transform duration-300 ease-out-strong group-hover:-rotate-6 group-hover:scale-110" />
+          <span>Rim<span className="text-primary">.</span></span>
         </button>
 
         <div className="hidden items-center gap-1 md:flex">

@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import Navbar from "@/components/Navbar";
+import ScrollProgress from "@/components/ScrollProgress";
 import Hero from "@/components/Hero";
 import Marquee from "@/components/Marquee";
 import About from "@/components/About";
@@ -19,6 +20,7 @@ const Index = () => {
       transition={{ duration: 0.5 }}
     >
       <Navbar />
+      <ScrollProgress />
       <main>
         <Hero />
         <Marquee />

@@ -21,10 +21,10 @@ const SectionHeading = ({
   const centered = align === "center";
   return (
     <motion.div
-      initial={{ opacity: 0, y: 24 }}
-      whileInView={{ opacity: 1, y: 0 }}
+      initial={{ opacity: 0, y: 24, filter: "blur(10px)" }}
+      whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
       viewport={{ once: true, amount: 0.5 }}
-      transition={{ duration: 0.6, ease }}
+      transition={{ duration: 0.7, ease }}
       className={`${centered ? "mx-auto max-w-2xl text-center" : "max-w-2xl"} ${className}`}
     >
       {eyebrow && (

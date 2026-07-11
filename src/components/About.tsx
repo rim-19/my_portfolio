@@ -18,13 +18,13 @@ const About = () => {
   return (
     <section id="about" className="relative overflow-hidden py-24 md:py-32">
       <div ref={ref} className="mx-auto max-w-6xl px-6">
-        <div className="grid items-center gap-14 md:grid-cols-[0.85fr_1.15fr] lg:gap-20">
-          {/* Portrait */}
+        <div className="grid items-start gap-14 md:grid-cols-[0.85fr_1.15fr] lg:gap-20">
+          {/* Portrait — sticks while the story scrolls past */}
           <motion.div
             initial={{ opacity: 0, x: -40 }}
             animate={inView ? { opacity: 1, x: 0 } : {}}
             transition={{ duration: 0.8, ease }}
-            className="relative mx-auto w-full max-w-xs"
+            className="relative mx-auto w-full max-w-xs md:sticky md:top-28"
           >
             <div className="absolute -inset-3 rounded-[2.25rem] gradient-rose opacity-20 blur-2xl" />
             <img

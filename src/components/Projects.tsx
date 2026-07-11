@@ -2,7 +2,6 @@ import { motion, useInView } from "framer-motion";
 import { useRef, useState } from "react";
 import { MessageSquare, ShoppingBag, FileText, ArrowUpRight, Globe, Database, Users, Coffee } from "lucide-react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
-import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import SectionHeading from "./SectionHeading";
 import Tilt from "./Tilt";
@@ -21,6 +20,17 @@ interface Project {
 }
 
 const projects: Project[] = [
+  {
+    id: 1,
+    title: "HR-Genius AI Platform",
+    description:
+      "An HR platform where you manage staff and generate documents by chatting. The AI plans; the server decides what's actually allowed.",
+    date: "January 2026",
+    icon: Users,
+    tags: ["React", "Node.js", "TypeScript", "LangChain", "PostgreSQL", "JWT"],
+    details:
+      "HR-Genius lets an HR team manage employees and generate documents just by chatting. The React frontend adapts to whoever is signed in, so HR, managers, and employees each see only the actions they are allowed to take. On the backend (Node, Express, TypeScript) I used a strict planner-executor split: LangChain with Google Gemini only handles reading intent and writing the reply, while every rule and permission is enforced in code on the server. Auth is JWT with role-based access, and everything lives in PostgreSQL through Prisma, including employee records, generated documents, action logs, and a bit of conversational memory so the assistant understands references like 'him' or 'that document.' Documents are built as PDFs and emailed automatically through n8n over SMTP, and the AI only explains results the backend has already confirmed. AI decides what to do; the backend decides how to do it safely.",
+  },
   {
     id: 8,
     title: "Cupid: Coffee House & Bookshop E-commerce",
@@ -43,17 +53,6 @@ const projects: Project[] = [
     details:
       "ResumeIQ reads a resume and scores it the way an applicant tracking system would, then points out exactly what to fix. It runs without a database: files are parsed in the browser and nothing is kept on a server. The score is deterministic, weighted across skills (40%), keywords (25%), experience (20%), and formatting (15%), and the app estimates years of experience and splits the document into sections on its own. Behind it, the AI takes an 'executive recruiter' point of view, giving a marketability read, evidence-based strengths and weaknesses, and rewrites of experience bullets using the Google XYZ formula. It also handles PDF and DOCX parsing and drafts a tailored cover letter, all while keeping your data in memory only.",
     link: "https://resume-analyzer-six-gold.vercel.app/",
-  },
-  {
-    id: 1,
-    title: "HR-Genius AI Platform",
-    description:
-      "An HR platform where you manage staff and generate documents by chatting. The AI plans; the server decides what's actually allowed.",
-    date: "January 2026",
-    icon: Users,
-    tags: ["React", "Node.js", "TypeScript", "LangChain", "PostgreSQL", "JWT"],
-    details:
-      "HR-Genius lets an HR team manage employees and generate documents just by chatting. The React frontend adapts to whoever is signed in, so HR, managers, and employees each see only the actions they are allowed to take. On the backend (Node, Express, TypeScript) I used a strict planner-executor split: LangChain with Google Gemini only handles reading intent and writing the reply, while every rule and permission is enforced in code on the server. Auth is JWT with role-based access, and everything lives in PostgreSQL through Prisma, including employee records, generated documents, action logs, and a bit of conversational memory so the assistant understands references like 'him' or 'that document.' Documents are built as PDFs and emailed automatically through n8n over SMTP, and the AI only explains results the backend has already confirmed. AI decides what to do; the backend decides how to do it safely.",
   },
   {
     id: 2,
@@ -150,7 +149,7 @@ const Projects = () => {
                 >
                   <div className={`flex flex-col justify-center ${idx % 2 === 0 ? "" : "md:order-2"}`}>
                     <span className="text-xs font-medium uppercase tracking-[0.2em] text-primary">
-                      {idx === 0 ? "Latest" : "Featured"}
+                      Featured
                     </span>
                     <div className="mt-4 flex h-14 w-14 items-center justify-center rounded-2xl gradient-rose text-white shadow-rose">
                       <project.icon className="h-7 w-7" strokeWidth={1.75} />
@@ -242,24 +241,58 @@ const Projects = () => {
             </DialogDescription>
           </DialogHeader>
           <div className="space-y-6">
+            {selected?.link && (
+              <motion.div
+                initial={{ opacity: 0, scale: 0.97 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.4, ease }}
+                className="overflow-hidden rounded-2xl border border-border shadow-sm"
+              >
+                <div className="flex items-center gap-1.5 border-b border-border bg-card px-4 py-2.5">
+                  <span className="h-2.5 w-2.5 rounded-full bg-rose/70" />
+                  <span className="h-2.5 w-2.5 rounded-full bg-champagne" />
+                  <span className="h-2.5 w-2.5 rounded-full bg-mauve/60" />
+                  <span className="ml-2 truncate text-xs text-muted-foreground">
+                    {selected.link.replace(/^https?:\/\//, "").replace(/\/$/, "")}
+                  </span>
+                </div>
+                <iframe
+                  src={selected.link}
+                  title={`${selected.title} live preview`}
+                  loading="lazy"
+                  sandbox="allow-scripts allow-same-origin allow-popups allow-forms"
+                  className="h-[300px] w-full bg-white sm:h-[360px]"
+                />
+              </motion.div>
+            )}
+
             <p className="text-[0.95rem] leading-relaxed text-foreground">{selected?.details}</p>
+
             <div>
               <h4 className="mb-3 text-sm font-semibold uppercase tracking-wide text-primary">
                 Technologies
               </h4>
               <div className="flex flex-wrap gap-2">
-                {selected?.tags.map((tag) => (
-                  <Badge key={tag} variant="secondary" className="rounded-full">
+                {selected?.tags.map((tag, i) => (
+                  <motion.span
+                    key={tag}
+                    initial={{ opacity: 0, scale: 0.6, y: 8 }}
+                    animate={{ opacity: 1, scale: 1, y: 0 }}
+                    transition={{ delay: i * 0.05, type: "spring", stiffness: 420, damping: 22 }}
+                    whileHover={{ scale: 1.09, y: -2 }}
+                    className="cursor-default rounded-full border border-primary/20 bg-primary/8 px-3 py-1 text-xs font-medium text-primary"
+                  >
                     {tag}
-                  </Badge>
+                  </motion.span>
                 ))}
               </div>
             </div>
+
             {selected?.link && (
               <Button asChild variant="gradient" className="w-full">
                 <a href={selected.link} target="_blank" rel="noopener noreferrer">
                   <Globe className="h-4 w-4" />
-                  Visit live site
+                  Open the live site
                 </a>
               </Button>
             )}

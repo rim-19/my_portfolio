@@ -53,8 +53,8 @@ const Hero = () => {
             transition={{ duration: 0.7, delay: 0.18, ease }}
             className="mt-6 max-w-md text-lg leading-relaxed text-muted-foreground"
           >
-            I build full-stack web applications, often with AI at the core, and I
-            sweat the details that make them reliable.
+            I build full-stack web apps, usually with a sprinkle of AI, and I fuss
+            over the tiny details until the whole thing just feels right.
           </motion.p>
 
           <motion.div
