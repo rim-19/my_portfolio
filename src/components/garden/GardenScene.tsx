@@ -25,9 +25,9 @@ import {
 } from "simple-icons";
 
 /* ------------------------------------------------------------------ *
- * Tech stack as a garden of glossy soap bubbles. Each logo floats
- * inside a translucent, iridescent, clearcoated sphere and orbits in
- * true 3D. Billboarded logo + a highlight glint sell the bubble.
+ * Tech stack as a garden of glossy iridescent HEART bubbles. Each
+ * logo floats inside a puffy 3D heart and orbits in true 3D. Same
+ * float / grow-in / cursor parallax / sparkles as before.
  * ------------------------------------------------------------------ */
 
 const TINTS = ["#e98aa8", "#c9b6e4", "#b892c9", "#e6b98a", "#f2a9c2"];
@@ -45,48 +45,69 @@ function toDataUri(pathD: string, color: string) {
   return "data:image/svg+xml;charset=utf-8," + encodeURIComponent(svg);
 }
 
-// logos filled near-white so they read clearly inside the tinted bubble
-const LOGO_URIS = ICONS.map((ic) => toDataUri(ic.path, "#fff4fa"));
+// pure white logos so they read brightly in front of the tinted heart
+const LOGO_URIS = ICONS.map((ic) => toDataUri(ic.path, "#ffffff"));
 
-/* ---- one logo suspended inside a glossy bubble ---- */
-function BubbleLogo({ texture, tint, scale = 0.9 }: { texture: THREE.Texture; tint: string; scale?: number }) {
+/* ---- a puffy, beveled 3D heart, shared across all instances ---- */
+const HEART_GEO = (() => {
+  const s = new THREE.Shape();
+  s.moveTo(0, -0.55);
+  s.bezierCurveTo(0.35, -0.3, 0.55, 0.0, 0.55, 0.25);
+  s.bezierCurveTo(0.55, 0.55, 0.3, 0.72, 0.0, 0.5);
+  s.bezierCurveTo(-0.3, 0.72, -0.55, 0.55, -0.55, 0.25);
+  s.bezierCurveTo(-0.55, 0.0, -0.35, -0.3, 0.0, -0.55);
+  const geo = new THREE.ExtrudeGeometry(s, {
+    depth: 0.2,
+    bevelEnabled: true,
+    bevelSegments: 5,
+    bevelSize: 0.07,
+    bevelThickness: 0.07,
+    curveSegments: 24,
+  });
+  geo.center();
+  geo.computeVertexNormals();
+  return geo;
+})();
+
+/* ---- one logo inside a glossy heart ---- */
+function HeartLogo({ texture, tint, scale = 0.62 }: { texture: THREE.Texture; tint: string; scale?: number }) {
   return (
-    <group scale={scale}>
-      {/* the bubble */}
-      <mesh>
-        <sphereGeometry args={[0.5, 32, 24]} />
-        <meshPhysicalMaterial
-          color={tint}
-          transparent
-          opacity={0.4}
-          roughness={0.1}
-          metalness={0.1}
-          clearcoat={1}
-          clearcoatRoughness={0.15}
-          iridescence={0.9}
-          iridescenceIOR={1.3}
-          envMapIntensity={0.6}
-          depthWrite={false}
-        />
-      </mesh>
-
-      <Billboard>
-        {/* logo inside, facing the camera */}
-        <mesh position={[0, 0, 0.28]} scale={0.58}>
-          <planeGeometry args={[1, 1]} />
-          <meshBasicMaterial map={texture} transparent alphaTest={0.1} depthWrite={false} toneMapped={false} />
+    <Billboard>
+      <group scale={scale}>
+        {/* the heart bubble */}
+        <mesh geometry={HEART_GEO}>
+          <meshPhysicalMaterial
+            color={tint}
+            transparent
+            opacity={0.42}
+            roughness={0.1}
+            metalness={0.1}
+            clearcoat={1}
+            clearcoatRoughness={0.15}
+            iridescence={0.9}
+            iridescenceIOR={1.3}
+            envMapIntensity={0.6}
+            depthWrite={false}
+          />
         </mesh>
+
+        {/* bright logo, floating just in front */}
+        <mesh position={[0, 0.02, 0.34]} scale={0.52} renderOrder={2}>
+          <planeGeometry args={[1, 1]} />
+          <meshBasicMaterial map={texture} transparent alphaTest={0.08} depthWrite={false} toneMapped={false} />
+        </mesh>
+
         {/* glossy highlight glint */}
-        <mesh position={[-0.16, 0.18, 0.46]}>
-          <circleGeometry args={[0.08, 20]} />
+        <mesh position={[-0.16, 0.24, 0.4]} renderOrder={3}>
+          <circleGeometry args={[0.07, 20]} />
           <meshBasicMaterial color="#ffffff" transparent opacity={0.55} depthWrite={false} toneMapped={false} />
         </mesh>
-      </Billboard>
-    </group>
+      </group>
+    </Billboard>
   );
 }
 
-/* ---- one tilted 3D orbit ring of bubbles ---- */
+/* ---- one tilted 3D orbit ring of hearts ---- */
 function Ring({
   radius,
   tilt,
@@ -114,7 +135,7 @@ function Ring({
           return (
             <group key={i} position={[Math.cos(a) * radius, Math.sin(a) * radius, 0]}>
               <Float speed={1.6} floatIntensity={0.5} rotationIntensity={0}>
-                <BubbleLogo texture={t} tint={tint} />
+                <HeartLogo texture={t} tint={tint} />
               </Float>
             </group>
           );
@@ -124,7 +145,7 @@ function Ring({
   );
 }
 
-/* ---- all bubbles, grown in on mount, across 3 orbits ---- */
+/* ---- all hearts, grown in on mount, across 3 orbits ---- */
 function LogoGarden() {
   const uris = useMemo(() => LOGO_URIS, []);
   const loaded = useTexture(uris);
@@ -190,7 +211,7 @@ export default function GardenScene({ active }: { active: boolean }) {
       <Suspense fallback={null}>
         <Rig>
           <LogoGarden />
-          <Sparkles count={60} scale={[13, 8, 6]} size={2.4} speed={0.3} color="#ffdcea" opacity={0.55} />
+          <Sparkles count={55} scale={[13, 8, 6]} size={2.2} speed={0.3} color="#ffdcea" opacity={0.5} />
         </Rig>
       </Suspense>
     </Canvas>
