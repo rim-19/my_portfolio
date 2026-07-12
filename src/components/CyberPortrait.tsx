@@ -71,10 +71,11 @@ const CyberPortrait = () => {
     };
 
     const stamp = (x: number, y: number) => {
-      const rad = 46 * DPR;
+      const rad = 82 * DPR;
       const g = mctx.createRadialGradient(x, y, 0, x, y, rad);
-      g.addColorStop(0, "rgba(255,255,255,0.55)");
-      g.addColorStop(0.55, "rgba(255,255,255,0.24)");
+      // opaque core for a clear reveal, feathered only at the rim
+      g.addColorStop(0, "rgba(255,255,255,1)");
+      g.addColorStop(0.66, "rgba(255,255,255,1)");
       g.addColorStop(1, "rgba(255,255,255,0)");
       mctx.fillStyle = g;
       mctx.beginPath();
@@ -84,7 +85,7 @@ const CyberPortrait = () => {
 
     const stampSegment = (x0: number, y0: number, x1: number, y1: number) => {
       const d = Math.hypot(x1 - x0, y1 - y0);
-      const steps = Math.max(1, Math.floor(d / (7 * DPR)));
+      const steps = Math.max(1, Math.floor(d / (12 * DPR)));
       for (let i = 0; i <= steps; i++) {
         const t = i / steps;
         stamp(x0 + (x1 - x0) * t, y0 + (y1 - y0) * t);
@@ -94,7 +95,7 @@ const CyberPortrait = () => {
     const frame = () => {
       // gently fade the whole mask so the trail wipes away over time
       mctx.globalCompositeOperation = "destination-out";
-      mctx.fillStyle = "rgba(0,0,0,0.03)";
+      mctx.fillStyle = "rgba(0,0,0,0.008)";
       mctx.fillRect(0, 0, WD, HD);
       mctx.globalCompositeOperation = "source-over";
 
@@ -122,7 +123,7 @@ const CyberPortrait = () => {
         ctx.globalCompositeOperation = "source-over";
       }
 
-      if (!active && idle > 120) {
+      if (!active && idle > 420) {
         running = false;
         return;
       }
@@ -167,7 +168,7 @@ const CyberPortrait = () => {
   return (
     <div
       ref={wrap}
-      className="relative aspect-[4/5] w-full overflow-hidden rounded-[2rem] border border-white/60 shadow-rose"
+      className="relative aspect-[4/5] w-full overflow-hidden rounded-[2rem]"
       style={{ touchAction: "pan-y" }}
     >
       <img
@@ -177,7 +178,6 @@ const CyberPortrait = () => {
         className="absolute inset-0 h-full w-full select-none object-cover"
       />
       <canvas ref={canvas} className="absolute inset-0 h-full w-full" />
-      <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-plum/20 via-transparent to-transparent" />
     </div>
   );
 };
