@@ -25,13 +25,11 @@ import {
 } from "simple-icons";
 
 /* ------------------------------------------------------------------ *
- * The garden, but the blooms are the tech stack. Each logo floats and
- * orbits in true 3D, always billboarded toward the camera so it stays
- * readable, tinted in the portfolio's pastel palette. Same motion as
- * before: tilted orbits, float, grow-in, cursor parallax, sparkles.
+ * Tech stack as a garden of glossy soap bubbles. Each logo floats
+ * inside a translucent, iridescent, clearcoated sphere and orbits in
+ * true 3D. Billboarded logo + a highlight glint sell the bubble.
  * ------------------------------------------------------------------ */
 
-// pastel tints (rose, lavender, mauve, champagne) instead of clashing brand colors
 const TINTS = ["#e98aa8", "#c9b6e4", "#b892c9", "#e6b98a", "#f2a9c2"];
 
 const ICONS = [
@@ -47,21 +45,48 @@ function toDataUri(pathD: string, color: string) {
   return "data:image/svg+xml;charset=utf-8," + encodeURIComponent(svg);
 }
 
-const LOGO_URIS = ICONS.map((ic, i) => toDataUri(ic.path, TINTS[i % TINTS.length]));
+// logos filled near-white so they read clearly inside the tinted bubble
+const LOGO_URIS = ICONS.map((ic) => toDataUri(ic.path, "#fff4fa"));
 
-/* ---- a single billboarded logo ---- */
-function Logo({ texture, scale = 0.72 }: { texture: THREE.Texture; scale?: number }) {
+/* ---- one logo suspended inside a glossy bubble ---- */
+function BubbleLogo({ texture, tint, scale = 0.9 }: { texture: THREE.Texture; tint: string; scale?: number }) {
   return (
-    <Billboard>
-      <mesh scale={scale}>
-        <planeGeometry args={[1, 1]} />
-        <meshBasicMaterial map={texture} transparent alphaTest={0.12} toneMapped={false} />
+    <group scale={scale}>
+      {/* the bubble */}
+      <mesh>
+        <sphereGeometry args={[0.5, 32, 24]} />
+        <meshPhysicalMaterial
+          color={tint}
+          transparent
+          opacity={0.4}
+          roughness={0.1}
+          metalness={0.1}
+          clearcoat={1}
+          clearcoatRoughness={0.15}
+          iridescence={0.9}
+          iridescenceIOR={1.3}
+          envMapIntensity={0.6}
+          depthWrite={false}
+        />
       </mesh>
-    </Billboard>
+
+      <Billboard>
+        {/* logo inside, facing the camera */}
+        <mesh position={[0, 0, 0.28]} scale={0.58}>
+          <planeGeometry args={[1, 1]} />
+          <meshBasicMaterial map={texture} transparent alphaTest={0.1} depthWrite={false} toneMapped={false} />
+        </mesh>
+        {/* glossy highlight glint */}
+        <mesh position={[-0.16, 0.18, 0.46]}>
+          <circleGeometry args={[0.08, 20]} />
+          <meshBasicMaterial color="#ffffff" transparent opacity={0.55} depthWrite={false} toneMapped={false} />
+        </mesh>
+      </Billboard>
+    </group>
   );
 }
 
-/* ---- one tilted 3D orbit ring of logos ---- */
+/* ---- one tilted 3D orbit ring of bubbles ---- */
 function Ring({
   radius,
   tilt,
@@ -85,10 +110,11 @@ function Ring({
       <group ref={spin}>
         {textures.map((t, i) => {
           const a = phase + (i / count) * Math.PI * 2;
+          const tint = TINTS[i % TINTS.length];
           return (
             <group key={i} position={[Math.cos(a) * radius, Math.sin(a) * radius, 0]}>
               <Float speed={1.6} floatIntensity={0.5} rotationIntensity={0}>
-                <Logo texture={t} />
+                <BubbleLogo texture={t} tint={tint} />
               </Float>
             </group>
           );
@@ -98,7 +124,7 @@ function Ring({
   );
 }
 
-/* ---- all the logos, grown in on mount, split across 3 orbits ---- */
+/* ---- all bubbles, grown in on mount, across 3 orbits ---- */
 function LogoGarden() {
   const uris = useMemo(() => LOGO_URIS, []);
   const loaded = useTexture(uris);
@@ -118,9 +144,9 @@ function LogoGarden() {
 
   return (
     <group ref={g} scale={0.001}>
-      <Ring radius={1.95} tilt={0.4} speed={0.16} textures={r1} />
-      <Ring radius={2.75} tilt={-0.5} speed={-0.12} phase={0.4} textures={r2} />
-      <Ring radius={3.45} tilt={0.95} speed={0.1} phase={0.9} textures={r3} />
+      <Ring radius={2.0} tilt={0.4} speed={0.16} textures={r1} />
+      <Ring radius={2.85} tilt={-0.5} speed={-0.12} phase={0.4} textures={r2} />
+      <Ring radius={3.6} tilt={0.95} speed={0.1} phase={0.9} textures={r3} />
     </group>
   );
 }
@@ -153,12 +179,14 @@ export default function GardenScene({ active }: { active: boolean }) {
     <Canvas
       frameloop={active ? "always" : "demand"}
       resize={{ offsetSize: true }}
-      flat
       dpr={[1, 1.6]}
       gl={{ antialias: true, alpha: true, powerPreference: "high-performance" }}
       camera={{ position: [0, 0, 9], fov: 45 }}
       style={{ pointerEvents: "none" }}
     >
+      <ambientLight intensity={1.3} color="#fff2f7" />
+      <directionalLight position={[3, 5, 4]} intensity={1.7} color="#ffffff" />
+      <pointLight position={[-4, 2, 4]} intensity={5} distance={20} color="#ffd0e2" />
       <Suspense fallback={null}>
         <Rig>
           <LogoGarden />
