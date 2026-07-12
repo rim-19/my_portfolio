@@ -5,6 +5,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } f
 import { Button } from "@/components/ui/button";
 import SectionHeading from "./SectionHeading";
 import Tilt from "./Tilt";
+import GardenBackground from "./garden/GardenBackground";
 
 const ease = [0.23, 1, 0.32, 1] as const;
 
@@ -128,6 +129,8 @@ const CATEGORIES = ["All", "AI", "E-commerce", "Desktop"];
 const Projects = () => {
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, margin: "-100px" });
+  const gardenInView = useInView(ref, { once: false, margin: "10% 0px" });
+  const gardenNear = useInView(ref, { once: true, margin: "800px 0px" });
   const [selected, setSelected] = useState<Project | null>(null);
   const [filter, setFilter] = useState("All");
   const [previewLoaded, setPreviewLoaded] = useState(false);
@@ -147,7 +150,12 @@ const Projects = () => {
 
   return (
     <section id="projects" className="relative overflow-hidden py-16 md:py-32">
-      <div ref={ref} className="mx-auto max-w-6xl px-6">
+      {/* Enchanted 3D garden behind the cards */}
+      <div className="pointer-events-none absolute inset-0 -z-10">
+        <GardenBackground active={gardenInView} near={gardenNear} />
+      </div>
+
+      <div ref={ref} className="relative mx-auto max-w-6xl px-6">
         <SectionHeading
           eyebrow="Selected work"
           title="Work I'm proud of"
