@@ -1,6 +1,6 @@
 import { useEffect, useRef } from "react";
 import baseImg from "@/assets/rim-profile.webp";
-import cyberImg from "@/assets/rim-cyber.webp";
+import cyberImg from "@/assets/rim-cyber2.webp";
 
 /**
  * Cursor-paint reveal. The base photo is always shown; the cyber-kawaii
