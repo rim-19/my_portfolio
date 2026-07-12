@@ -5,7 +5,7 @@ import Tilt from "@/components/Tilt";
 import { SparklesText } from "@/components/SparklesText";
 import { Magnetic } from "@/components/Magnetic";
 import { CountUp } from "@/components/CountUp";
-import profileImage from "@/assets/rim-profile.webp";
+import CyberPortrait from "@/components/CyberPortrait";
 import resumePdf from "../assets/Resume_RimElrhezzal.pdf";
 
 const ease = [0.23, 1, 0.32, 1] as const;
@@ -121,17 +121,7 @@ const Hero = () => {
           <div className="absolute -inset-4 rounded-[2.5rem] bg-rose-soft/60 aura" />
 
           <Tilt max={9} perspective={900} radius="2rem" glare className="relative">
-            <div
-              className="relative overflow-hidden rounded-[2rem] border border-white/60 shadow-rose"
-              style={{ transform: "translateZ(0)" }}
-            >
-              <img
-                src={profileImage}
-                alt="Rim Elrhezzal"
-                className="aspect-[4/5] w-full object-cover"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-plum/25 via-transparent to-transparent" />
-            </div>
+            <CyberPortrait />
 
             {/* Stat card: popped forward in real 3D depth */}
             <motion.div

@@ -18,6 +18,6 @@ export default defineConfig(({ mode }) => ({
   // Pre-bundle the 3D stack so the lazy-loaded garden scene doesn't trigger a
   // dev re-optimization reload when it first mounts.
   optimizeDeps: {
-    include: ["three", "@react-three/fiber", "@react-three/drei", "simple-icons"],
+    include: ["three", "@react-three/fiber", "@react-three/drei", "simple-icons", "gsap"],
   },
 }));
