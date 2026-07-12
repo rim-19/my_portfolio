@@ -71,7 +71,7 @@ const CyberPortrait = () => {
     };
 
     const stamp = (x: number, y: number) => {
-      const rad = 47 * DPR;
+      const rad = 45 * DPR;
       const g = mctx.createRadialGradient(x, y, 0, x, y, rad);
       // opaque core for a clear reveal, feathered only at the rim
       g.addColorStop(0, "rgba(255,255,255,1)");
@@ -95,7 +95,7 @@ const CyberPortrait = () => {
     const frame = () => {
       // gently fade the whole mask so the trail wipes away over time
       mctx.globalCompositeOperation = "destination-out";
-      mctx.fillStyle = "rgba(0,0,0,0.022)";
+      mctx.fillStyle = "rgba(0,0,0,0.045)";
       mctx.fillRect(0, 0, WD, HD);
       mctx.globalCompositeOperation = "source-over";
 
@@ -126,7 +126,7 @@ const CyberPortrait = () => {
         ctx.globalCompositeOperation = "source-over";
       }
 
-      if (!active && idle > 200) {
+      if (!active && idle > 130) {
         running = false;
         return;
       }
