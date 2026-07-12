@@ -1,169 +1,183 @@
-import { useEffect, useMemo, useRef, useState } from "react";
-import { gsap } from "gsap";
+import { useEffect, useRef } from "react";
 import baseImg from "@/assets/rim-profile.webp";
 import cyberImg from "@/assets/rim-cyber.webp";
 
 /**
- * The hero portrait "awakens" into a cyber-kawaii version on hover:
- * the photo cross-dissolves into the illustration while it lifts, scales,
- * de-blurs, blooms a pink glow, and releases sparkles + hearts. A soft
- * pink light trails the cursor. All GSAP, honors reduced motion, and
- * falls back to tap-to-toggle on touch.
+ * Cursor-paint reveal. The base photo is always shown; the cyber-kawaii
+ * illustration is painted in only along the path the cursor brushes,
+ * with soft feathered edges. The trail slowly fades, so it wipes away
+ * when the cursor leaves. Canvas alpha-mask driven by requestAnimationFrame.
  */
 const CyberPortrait = () => {
-  const root = useRef<HTMLDivElement>(null);
-  const base = useRef<HTMLImageElement>(null);
-  const cyber = useRef<HTMLImageElement>(null);
-  const glow = useRef<HTMLDivElement>(null);
-  const light = useRef<HTMLDivElement>(null);
-  const particles = useRef<HTMLDivElement>(null);
-  const tl = useRef<gsap.core.Timeline | null>(null);
-  const xTo = useRef<((v: number) => void) | null>(null);
-  const yTo = useRef<((v: number) => void) | null>(null);
-
-  const [canHover, setCanHover] = useState(true);
-  const [on, setOn] = useState(false);
-
-  // stable random particles (sparkles + hearts)
-  const bits = useMemo(
-    () =>
-      Array.from({ length: 14 }, (_, i) => ({
-        id: i,
-        heart: i % 3 === 0,
-        top: 8 + Math.random() * 84,
-        left: 6 + Math.random() * 88,
-        size: 8 + Math.random() * 12,
-        delay: Math.random() * 0.25,
-        drift: 10 + Math.random() * 20,
-      })),
-    [],
-  );
+  const wrap = useRef<HTMLDivElement>(null);
+  const canvas = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
-    setCanHover(window.matchMedia("(hover: hover) and (pointer: fine)").matches);
+    const el = wrap.current;
+    const cv = canvas.current;
+    if (!el || !cv) return;
+
     const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (reduce) return; // base photo only
 
-    const ctx = gsap.context(() => {
-      const t = gsap.timeline({ paused: true, defaults: { ease: "power3.out" } });
+    const ctx = cv.getContext("2d");
+    const mask = document.createElement("canvas");
+    const mctx = mask.getContext("2d");
+    if (!ctx || !mctx) return;
 
-      if (reduce) {
-        // gentle crossfade only
-        t.to(base.current, { autoAlpha: 0, duration: 0.4 }, 0).to(cyber.current, { autoAlpha: 1, duration: 0.4 }, 0);
+    const cyber = new Image();
+    cyber.src = cyberImg;
+
+    let WD = 0;
+    let HD = 0;
+    let DPR = 1;
+    let raf = 0;
+    let running = false;
+
+    let px = -1;
+    let py = -1;
+    let lx = -1;
+    let ly = -1;
+    let active = false;
+    let idle = 0;
+
+    const resize = () => {
+      const r = el.getBoundingClientRect();
+      DPR = Math.min(window.devicePixelRatio || 1, 2);
+      WD = Math.round(r.width * DPR);
+      HD = Math.round(r.height * DPR);
+      cv.width = WD;
+      cv.height = HD;
+      mask.width = WD;
+      mask.height = HD;
+    };
+    resize();
+    const ro = new ResizeObserver(resize);
+    ro.observe(el);
+
+    const coverRect = () => {
+      const ir = cyber.width / cyber.height;
+      const cr = WD / HD;
+      let dw: number;
+      let dh: number;
+      if (ir > cr) {
+        dh = HD;
+        dw = HD * ir;
       } else {
-        t.to(base.current, { autoAlpha: 0, filter: "blur(7px)", scale: 1.04, duration: 0.7 }, 0)
-          .fromTo(
-            cyber.current,
-            { autoAlpha: 0, filter: "blur(12px)", scale: 1.06 },
-            { autoAlpha: 1, filter: "blur(0px)", scale: 1.03, duration: 0.78 },
-            0,
-          )
-          .to(root.current, { y: -6, duration: 0.7 }, 0)
-          .to(glow.current, { autoAlpha: 1, duration: 0.6 }, 0)
-          .to(
-            particles.current ? particles.current.children : [],
-            { autoAlpha: 1, y: (i) => -(bits[i]?.drift ?? 14), scale: 1, duration: 0.8, stagger: 0.035 },
-            0.08,
-          );
+        dw = WD;
+        dh = WD / ir;
       }
-      tl.current = t;
+      return { dx: (WD - dw) / 2, dy: (HD - dh) / 2, dw, dh };
+    };
 
-      xTo.current = gsap.quickTo(light.current, "x", { duration: 0.45, ease: "power2.out" });
-      yTo.current = gsap.quickTo(light.current, "y", { duration: 0.45, ease: "power2.out" });
-    }, root);
+    const stamp = (x: number, y: number) => {
+      const rad = 46 * DPR;
+      const g = mctx.createRadialGradient(x, y, 0, x, y, rad);
+      g.addColorStop(0, "rgba(255,255,255,0.55)");
+      g.addColorStop(0.55, "rgba(255,255,255,0.24)");
+      g.addColorStop(1, "rgba(255,255,255,0)");
+      mctx.fillStyle = g;
+      mctx.beginPath();
+      mctx.arc(x, y, rad, 0, Math.PI * 2);
+      mctx.fill();
+    };
 
-    return () => ctx.revert();
-  }, [bits]);
+    const stampSegment = (x0: number, y0: number, x1: number, y1: number) => {
+      const d = Math.hypot(x1 - x0, y1 - y0);
+      const steps = Math.max(1, Math.floor(d / (7 * DPR)));
+      for (let i = 0; i <= steps; i++) {
+        const t = i / steps;
+        stamp(x0 + (x1 - x0) * t, y0 + (y1 - y0) * t);
+      }
+    };
 
-  const play = () => {
-    setOn(true);
-    tl.current?.play();
-    gsap.to(light.current, { autoAlpha: 0.85, duration: 0.4 });
-  };
-  const reverse = () => {
-    setOn(false);
-    tl.current?.reverse();
-    gsap.to(light.current, { autoAlpha: 0, duration: 0.4 });
-  };
+    const frame = () => {
+      // gently fade the whole mask so the trail wipes away over time
+      mctx.globalCompositeOperation = "destination-out";
+      mctx.fillStyle = "rgba(0,0,0,0.03)";
+      mctx.fillRect(0, 0, WD, HD);
+      mctx.globalCompositeOperation = "source-over";
 
-  const onMove = (e: React.PointerEvent) => {
-    if (!root.current || e.pointerType !== "mouse") return;
-    const r = root.current.getBoundingClientRect();
-    xTo.current?.(e.clientX - r.left - 150);
-    yTo.current?.(e.clientY - r.top - 150);
-  };
+      if (active && px >= 0) {
+        if (lx < 0) {
+          lx = px;
+          ly = py;
+        }
+        stampSegment(lx, ly, px, py);
+        lx = px;
+        ly = py;
+        idle = 0;
+      } else {
+        idle += 1;
+      }
+
+      // composite: draw cyber, keep only where the mask is painted
+      ctx.clearRect(0, 0, WD, HD);
+      if (cyber.complete && cyber.naturalWidth) {
+        const { dx, dy, dw, dh } = coverRect();
+        ctx.globalCompositeOperation = "source-over";
+        ctx.drawImage(cyber, dx, dy, dw, dh);
+        ctx.globalCompositeOperation = "destination-in";
+        ctx.drawImage(mask, 0, 0);
+        ctx.globalCompositeOperation = "source-over";
+      }
+
+      if (!active && idle > 120) {
+        running = false;
+        return;
+      }
+      raf = requestAnimationFrame(frame);
+    };
+
+    const kick = () => {
+      if (!running) {
+        running = true;
+        raf = requestAnimationFrame(frame);
+      }
+    };
+
+    const onMove = (e: PointerEvent) => {
+      const r = el.getBoundingClientRect();
+      px = (e.clientX - r.left) * DPR;
+      py = (e.clientY - r.top) * DPR;
+      active = true;
+      kick();
+    };
+    const onLeave = () => {
+      active = false;
+      lx = -1;
+      ly = -1;
+    };
+
+    el.addEventListener("pointermove", onMove);
+    el.addEventListener("pointerdown", onMove);
+    el.addEventListener("pointerleave", onLeave);
+    el.addEventListener("pointercancel", onLeave);
+
+    return () => {
+      cancelAnimationFrame(raf);
+      ro.disconnect();
+      el.removeEventListener("pointermove", onMove);
+      el.removeEventListener("pointerdown", onMove);
+      el.removeEventListener("pointerleave", onLeave);
+      el.removeEventListener("pointercancel", onLeave);
+    };
+  }, []);
 
   return (
     <div
-      ref={root}
-      onPointerEnter={canHover ? play : undefined}
-      onPointerLeave={canHover ? reverse : undefined}
-      onPointerMove={onMove}
-      onClick={!canHover ? () => (on ? reverse() : play()) : undefined}
-      className="group relative aspect-[4/5] w-full overflow-hidden rounded-[2rem] border border-white/60 shadow-rose"
+      ref={wrap}
+      className="relative aspect-[4/5] w-full overflow-hidden rounded-[2rem] border border-white/60 shadow-rose"
+      style={{ touchAction: "pan-y" }}
     >
       <img
-        ref={base}
         src={baseImg}
         alt="Rim Elrhezzal"
-        className="absolute inset-0 h-full w-full object-cover will-change-transform"
+        draggable={false}
+        className="absolute inset-0 h-full w-full select-none object-cover"
       />
-      <img
-        ref={cyber}
-        src={cyberImg}
-        alt="Rim Elrhezzal, cyber-kawaii illustration"
-        aria-hidden
-        className="absolute inset-0 h-full w-full object-cover opacity-0 will-change-transform"
-      />
-
-      {/* base gradient for text legibility */}
-      <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-plum/25 via-transparent to-transparent" />
-
-      {/* pink bloom (fades in) */}
-      <div
-        ref={glow}
-        aria-hidden
-        className="pointer-events-none absolute inset-0 opacity-0 mix-blend-screen"
-        style={{
-          background:
-            "radial-gradient(60% 55% at 50% 45%, hsl(340 90% 72% / 0.55), transparent 70%)",
-          boxShadow: "inset 0 0 60px hsl(340 90% 72% / 0.4)",
-        }}
-      />
-
-      {/* cursor-follow light */}
-      <div
-        ref={light}
-        aria-hidden
-        className="pointer-events-none absolute left-0 top-0 h-[300px] w-[300px] opacity-0 mix-blend-screen"
-        style={{
-          background: "radial-gradient(circle, hsl(335 95% 72% / 0.55), transparent 62%)",
-        }}
-      />
-
-      {/* sparkles + hearts */}
-      <div ref={particles} aria-hidden className="pointer-events-none absolute inset-0">
-        {bits.map((b) => (
-          <svg
-            key={b.id}
-            className="absolute opacity-0"
-            style={{ top: `${b.top}%`, left: `${b.left}%`, width: b.size, height: b.size }}
-            viewBox="0 0 68 68"
-            fill="none"
-          >
-            {b.heart ? (
-              <path
-                d="M34 62C18 50 6 40 6 26 6 16 14 10 22 10c6 0 10 3 12 7 2-4 6-7 12-7 8 0 16 6 16 16 0 14-12 24-28 36Z"
-                fill="hsl(340 90% 74%)"
-              />
-            ) : (
-              <path
-                d="M34 0c1.5 18.3 15.7 32.5 34 34-18.3 1.5-32.5 15.7-34 34-1.5-18.3-15.7-32.5-34-34C18.3 32.5 32.5 18.3 34 0Z"
-                fill="hsl(345 100% 82%)"
-              />
-            )}
-          </svg>
-        ))}
-      </div>
+      <canvas ref={canvas} className="absolute inset-0 h-full w-full" />
+      <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-plum/20 via-transparent to-transparent" />
     </div>
   );
 };

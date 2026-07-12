@@ -120,7 +120,7 @@ const Hero = () => {
         >
           <div className="absolute -inset-4 rounded-[2.5rem] bg-rose-soft/60 aura" />
 
-          <Tilt max={9} perspective={900} radius="2rem" glare className="relative">
+          <Tilt max={6} perspective={1000} radius="2rem" className="relative">
             <CyberPortrait />
 
             {/* Stat card: popped forward in real 3D depth */}
