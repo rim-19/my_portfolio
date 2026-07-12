@@ -71,7 +71,7 @@ const CyberPortrait = () => {
     };
 
     const stamp = (x: number, y: number) => {
-      const rad = 56 * DPR;
+      const rad = 47 * DPR;
       const g = mctx.createRadialGradient(x, y, 0, x, y, rad);
       // opaque core for a clear reveal, feathered only at the rim
       g.addColorStop(0, "rgba(255,255,255,1)");
