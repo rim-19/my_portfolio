@@ -71,11 +71,11 @@ const CyberPortrait = () => {
     };
 
     const stamp = (x: number, y: number) => {
-      const rad = 82 * DPR;
+      const rad = 56 * DPR;
       const g = mctx.createRadialGradient(x, y, 0, x, y, rad);
       // opaque core for a clear reveal, feathered only at the rim
       g.addColorStop(0, "rgba(255,255,255,1)");
-      g.addColorStop(0.66, "rgba(255,255,255,1)");
+      g.addColorStop(0.82, "rgba(255,255,255,1)");
       g.addColorStop(1, "rgba(255,255,255,0)");
       mctx.fillStyle = g;
       mctx.beginPath();
@@ -95,7 +95,7 @@ const CyberPortrait = () => {
     const frame = () => {
       // gently fade the whole mask so the trail wipes away over time
       mctx.globalCompositeOperation = "destination-out";
-      mctx.fillStyle = "rgba(0,0,0,0.008)";
+      mctx.fillStyle = "rgba(0,0,0,0.022)";
       mctx.fillRect(0, 0, WD, HD);
       mctx.globalCompositeOperation = "source-over";
 
@@ -104,9 +104,12 @@ const CyberPortrait = () => {
           lx = px;
           ly = py;
         }
-        stampSegment(lx, ly, px, py);
-        lx = px;
-        ly = py;
+        // ease the paint point toward the cursor for a smooth trail
+        const nx = lx + (px - lx) * 0.28;
+        const ny = ly + (py - ly) * 0.28;
+        stampSegment(lx, ly, nx, ny);
+        lx = nx;
+        ly = ny;
         idle = 0;
       } else {
         idle += 1;
@@ -123,7 +126,7 @@ const CyberPortrait = () => {
         ctx.globalCompositeOperation = "source-over";
       }
 
-      if (!active && idle > 420) {
+      if (!active && idle > 200) {
         running = false;
         return;
       }
