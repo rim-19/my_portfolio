@@ -30,7 +30,7 @@ const projects: Project[] = [
     icon: Users,
     tags: ["React", "Node.js", "TypeScript", "LangChain", "PostgreSQL", "JWT"],
     details:
-      "HR-Genius lets an HR team manage employees and generate documents just by chatting. The React frontend adapts to whoever is signed in, so HR, managers, and employees each see only the actions they are allowed to take. On the backend (Node, Express, TypeScript) I used a strict planner-executor split: LangChain with Google Gemini only handles reading intent and writing the reply, while every rule and permission is enforced in code on the server. Auth is JWT with role-based access, and everything lives in PostgreSQL through Prisma, including employee records, generated documents, action logs, and a bit of conversational memory so the assistant understands references like 'him' or 'that document.' Documents are built as PDFs and emailed automatically through n8n over SMTP, and the AI only explains results the backend has already confirmed. AI decides what to do; the backend decides how to do it safely.",
+      "HR-Genius is a full-stack, AI-powered HR automation platform that lets HR teams manage employees, run HR workflows, and answer policy questions through a conversational chat interface. The React frontend adapts dynamically to user roles (Admin, HR, Manager, Employee), and the Node.js/Express backend is written in TypeScript around a Planner-Executor architecture: LangChain with Google Gemini handles intent extraction and natural-language generation, while all business rules, permissions, and actions are enforced deterministically server-side.\n\nThe assistant is genuinely conversational: it asks for missing details instead of guessing, corrects invalid or ambiguous requests, remembers context across turns, confirms destructive actions before executing, and streams responses token-by-token over Server-Sent Events. A retrieval-augmented (RAG) knowledge base grounds policy answers in the company handbook using vector embeddings, and analytical queries (e.g. average salary by department) are answered from live database aggregations. Every AI response is explainable and strictly grounded in verified backend results.\n\nBeyond the chatbot, the platform delivers a full HR product surface: leave management with manager approval and balance tracking, employee self-service profiles, AI-generated PDF documents from HR-editable templates (delivered via external n8n workflows over SMTP), row-level role-based access control, an audit log with GDPR data export, and in-app notifications.\n\nBuilt with JWT authentication (short-lived access tokens plus refresh tokens and account lockout), PostgreSQL via Prisma (employees, documents, leave, templates, notifications, action logs, and persistent conversational memory), and production-minded foundations: automated tests (Vitest/Supertest), structured logging, rate limiting, and security hardening.",
   },
   {
     id: 8,
@@ -337,7 +337,11 @@ const Projects = () => {
               </p>
             )}
 
-            <p className="text-[0.95rem] leading-relaxed text-foreground">{selected?.details}</p>
+            <div className="space-y-4 text-[0.95rem] leading-relaxed text-foreground">
+              {selected?.details.split("\n\n").map((para, i) => (
+                <p key={i}>{para}</p>
+              ))}
+            </div>
 
             <div>
               <h4 className="mb-3 text-sm font-semibold uppercase tracking-wide text-primary">
