@@ -152,8 +152,10 @@
 
   /* Soft aura for hero / decorative glows */
   .aura {
-    filter: blur(64px);
+    filter: blur(56px);
     opacity: 0.55;
+    will-change: transform;
+    transform: translateZ(0);
   }
 
   /* Reduced transparency fallback: solid warm fill */
@@ -191,9 +193,9 @@
   }
 
   @keyframes drift {
-    0%, 100% { transform: translate(0, 0) scale(1); }
-    33% { transform: translate(20px, -18px) scale(1.06); }
-    66% { transform: translate(-16px, 12px) scale(0.97); }
+    0%, 100% { transform: translate(0, 0); }
+    33% { transform: translate(22px, -20px); }
+    66% { transform: translate(-18px, 14px); }
   }
 
   /* ---- Aurora living gradient (rose / mauve / champagne) ---- */
@@ -207,7 +209,7 @@
       linear-gradient(100deg, var(--wash));
     background-size: 300% 300%, 200% 200%;
     background-position: 50% 50%, 50% 50%;
-    filter: blur(12px) saturate(130%);
+    filter: blur(8px) saturate(125%);
     mask-image: radial-gradient(ellipse at 100% 0%, #000 8%, transparent 68%);
     -webkit-mask-image: radial-gradient(ellipse at 100% 0%, #000 8%, transparent 68%);
     opacity: 0.55;

@@ -58,7 +58,7 @@ const About = () => {
             className="relative mx-auto w-full max-w-sm md:sticky md:top-28 lg:max-w-md"
           >
             {/* Ambient rotating aura — keeps moving while you read */}
-            <div className="pointer-events-none absolute -inset-5 rounded-[2.75rem] opacity-30 blur-2xl [background:conic-gradient(from_0deg,hsl(var(--rose)),hsl(var(--mauve)),hsl(var(--champagne)),hsl(var(--rose)))] motion-safe:animate-[spin_16s_linear_infinite]" />
+            <div className="pointer-events-none absolute -inset-5 rounded-[2.75rem] opacity-30 blur-2xl [background:conic-gradient(from_0deg,hsl(var(--rose)),hsl(var(--mauve)),hsl(var(--champagne)),hsl(var(--rose)))] [will-change:transform] motion-safe:animate-[spin_16s_linear_infinite]" />
             <img
               src={profileImage}
               alt="Rim Elrhezzal"

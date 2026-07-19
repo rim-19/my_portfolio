@@ -1,5 +1,5 @@
 import { Canvas, useFrame } from "@react-three/fiber";
-import { Billboard, Sparkles, Float, useTexture } from "@react-three/drei";
+import { Billboard, Sparkles, Float, useTexture, AdaptiveDpr, PerformanceMonitor } from "@react-three/drei";
 import { Suspense, useEffect, useMemo, useRef, type ReactNode } from "react";
 import * as THREE from "three";
 import {
@@ -59,10 +59,10 @@ const HEART_GEO = (() => {
   const geo = new THREE.ExtrudeGeometry(s, {
     depth: 0.2,
     bevelEnabled: true,
-    bevelSegments: 5,
+    bevelSegments: 2,
     bevelSize: 0.07,
     bevelThickness: 0.07,
-    curveSegments: 24,
+    curveSegments: 12,
   });
   geo.center();
   geo.computeVertexNormals();
@@ -76,17 +76,12 @@ function HeartLogo({ texture, tint, scale = 0.62 }: { texture: THREE.Texture; ti
       <group scale={scale}>
         {/* the heart bubble */}
         <mesh geometry={HEART_GEO}>
-          <meshPhysicalMaterial
+          <meshStandardMaterial
             color={tint}
             transparent
-            opacity={0.42}
-            roughness={0.1}
-            metalness={0.1}
-            clearcoat={1}
-            clearcoatRoughness={0.15}
-            iridescence={0.9}
-            iridescenceIOR={1.3}
-            envMapIntensity={0.6}
+            opacity={0.46}
+            roughness={0.18}
+            metalness={0.25}
             depthWrite={false}
           />
         </mesh>
@@ -200,18 +195,20 @@ export default function GardenScene({ active }: { active: boolean }) {
     <Canvas
       frameloop={active ? "always" : "demand"}
       resize={{ offsetSize: true }}
-      dpr={[1, 1.6]}
-      gl={{ antialias: true, alpha: true, powerPreference: "high-performance" }}
+      dpr={[1, 1.25]}
+      gl={{ antialias: false, alpha: true, powerPreference: "high-performance" }}
       camera={{ position: [0, 0, 9], fov: 45 }}
       style={{ pointerEvents: "none" }}
     >
-      <ambientLight intensity={1.3} color="#fff2f7" />
+      <PerformanceMonitor />
+      <AdaptiveDpr pixelated={false} />
+      <ambientLight intensity={1.35} color="#fff2f7" />
       <directionalLight position={[3, 5, 4]} intensity={1.7} color="#ffffff" />
       <pointLight position={[-4, 2, 4]} intensity={5} distance={20} color="#ffd0e2" />
       <Suspense fallback={null}>
         <Rig>
           <LogoGarden />
-          <Sparkles count={55} scale={[13, 8, 6]} size={2.2} speed={0.3} color="#ffdcea" opacity={0.5} />
+          <Sparkles count={28} scale={[13, 8, 6]} size={2.2} speed={0.25} color="#ffdcea" opacity={0.5} />
         </Rig>
       </Suspense>
     </Canvas>
