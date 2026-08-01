@@ -132,7 +132,7 @@ const Hero = () => {
               className="glass-strong absolute -bottom-5 -left-5 z-20 rounded-2xl px-5 py-3.5"
             >
               <p className="font-display text-2xl font-semibold text-plum">
-                <CountUp to={8} />
+                <CountUp to={11} />
               </p>
               <p className="text-xs text-muted-foreground">Shipped projects</p>
             </motion.div>

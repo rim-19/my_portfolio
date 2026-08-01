@@ -1,6 +1,6 @@
 import { motion, useInView } from "framer-motion";
 import { useRef, useState, useEffect } from "react";
-import { MessageSquare, ShoppingBag, FileText, ArrowUpRight, Globe, Database, Users, Coffee } from "lucide-react";
+import { MessageSquare, ShoppingBag, FileText, ArrowUpRight, Globe, Database, Users, Coffee, Network, Terminal, Sprout } from "lucide-react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import SectionHeading from "./SectionHeading";
@@ -44,6 +44,18 @@ const projects: Project[] = [
       "Cupid is a full-stack e-commerce platform for a coffee house and bookshop, built with a server-rendered React storefront and a Node/Express REST API backed by PostgreSQL through Prisma. Shoppers browse a searchable catalog with server-side filtering, sorting, and pagination, build a cart and wishlist that carry over from guest to account, and check out through Stripe's hosted flow, where orders are confirmed by a signed webhook and finalized idempotently, with atomic stock guards that stop overselling. Accounts run on cookie-based sessions with email verification, password reset, account lockout, and breached-password checks, and they support reviews with verified-purchase badges, events with RSVPs, and a double opt-in newsletter. Every eligible order comes with a downloadable e-book, delivered through short-lived signed URLs from private storage. The whole shop is run from a full-page, role-based admin dashboard that handles the catalog, orders, and editable site settings, right down to the brand, banner, and live theme accent, while server-side rendering and per-product structured data keep it fast and easy to find in search.",
   },
   {
+    id: 9,
+    title: "Nexus AI (RAG Knowledge Platform)",
+    description:
+      "A production RAG platform that turns GitHub repos and documents into a citable knowledge base you can chat with.",
+    date: "May 2026",
+    icon: Network,
+    tags: ["FastAPI", "Supabase pgvector", "Next.js 14", "RAG", "React Three Fiber", "SSE"],
+    details:
+      "Nexus AI is a production RAG (Retrieval-Augmented Generation) platform that turns GitHub repositories and documents into a searchable, citable knowledge base you can chat with. On the backend it runs FastAPI with async SQLAlchemy 2.0 over Supabase Postgres + pgvector (managed through Alembic migrations and reached via the Supabase session-mode pooler), where ingestion is handled by a durable Postgres-backed job queue (an ingestion_jobs table drained by an in-lifespan asyncio worker using FOR UPDATE SKIP LOCKED) so uploads survive restarts.\n\nThe RAG pipeline does structure-aware chunking with tree-sitter (splitting code by real syntax boundaries rather than blind character windows), embeds chunks with Jina embeddings v3 (1024-dim) into pgvector, then answers questions via hybrid retrieval: pgvector cosine similarity fused with Postgres full-text search through Reciprocal Rank Fusion, re-ranked by Jina reranker v2, and fed into a grounded 'cite-or-refuse' prompt so every answer streams back over SSE with inline citations pointing to the exact file, line, or page (and refuses when the context doesn't support an answer). Generation sits behind a provider abstraction with an automatic fallback chain (Groq Qwen / GPT-OSS / Llama, then Gemini 2.5), and the system self-evaluates retrieval and answer quality against a seeded eval set.\n\nSecurity and reliability are real: httpOnly cookie auth with short-lived access tokens plus single-use rotating refresh tokens, argon2 password hashing, JWT sessions, email verify and reset flows, and dependency-based rate limiting. The frontend is Next.js 14 (App Router) + TypeScript + Tailwind with a shadcn CSS-variable theme, animated via Framer Motion, a React Three Fiber particle 'AI Core' hero, Lenis smooth scroll, and higher-order features layered on top: a live query-analytics dashboard (latency, questions-over-time, most-cited files), an interactive force-directed knowledge graph (collection to documents to files), and an AI Repository Overview that generates a cached intelligence report (language, framework, architecture, modules, key files, security notes) from the indexed content.\n\nIt is deployed across Render (Dockerized backend that runs migrations then binds $PORT), Vercel (frontend), and Supabase (database), with cross-site cookies configured for production.",
+    link: "https://nexus-ai-red-five.vercel.app/",
+  },
+  {
     id: 7,
     title: "ResumeIQ: AI Resume Analyzer",
     description:
@@ -54,6 +66,29 @@ const projects: Project[] = [
     details:
       "ResumeIQ reads a resume and scores it the way an applicant tracking system would, then points out exactly what to fix. It runs without a database: files are parsed in the browser and nothing is kept on a server. The score is deterministic, weighted across skills (40%), keywords (25%), experience (20%), and formatting (15%), and the app estimates years of experience and splits the document into sections on its own. Behind it, the AI takes an 'executive recruiter' point of view, giving a marketability read, evidence-based strengths and weaknesses, and rewrites of experience bullets using the Google XYZ formula. It also handles PDF and DOCX parsing and drafts a tailored cover letter, all while keeping your data in memory only.",
     link: "https://resume-analyzer-six-gold.vercel.app/",
+  },
+  {
+    id: 10,
+    title: "PromptCheck (LLM Prompt Drift CLI)",
+    description:
+      "A CLI that treats LLM prompts as versioned, testable code and catches prompt drift in CI, with a live dashboard.",
+    date: "March 2026",
+    icon: Terminal,
+    tags: ["Python", "Typer", "asyncio", "SQLite", "GitHub Actions", "FastAPI"],
+    details:
+      "PromptCheck is a Python command-line tool (packaged on PyPI as promptcheck-drift, installed via pip, exposing a promptcheck command built with Typer for the CLI and Rich for the terminal tables) that treats LLM prompts as testable, versioned code. You define test suites in human-readable YAML files: a prompt template with a {{ input }} placeholder, a list of models to run against, and per-test assertions, which are loaded and validated by Pydantic schemas, then executed by an asyncio runner that fans out every model-and-test combination concurrently over httpx with a semaphore-based concurrency cap and exponential-backoff retry that honors HTTP 429 Retry-After headers.\n\nModel calls go through a small provider abstraction with interchangeable backends (Google Gemini and Groq, both on free tiers, each normalizing responses into a common result with text, token counts, cost, latency, and the resolved model version), and each test's output is graded either by fast deterministic checks (equals, contains, not_contains, regex) or by an LLM-as-judge (llm_rubric) that sends the output to a pinned judge model at temperature 0 and parses a strict JSON verdict, with the judge's exact version recorded so the grader's own drift is visible.\n\nEvery run is persisted to a local SQLite database (runs, per-test results, and baselines tables), which powers the tool's real differentiator, drift detection: baseline pins a reference run, then watch re-runs and diffs against it, reporting only genuine regressions (tests that passed in the baseline but fail now) while deliberately treating API and rate-limit errors as 'could not evaluate' rather than false-alarm regressions, flagging model-version changes as the likely cause of a drop, and exiting non-zero so it gates CI.\n\nThat exit code plus a --summary-file markdown export feed a shipped GitHub Actions workflow that runs the suite on every pull request and on a nightly cron, persisting the history DB in the Actions cache and opening a GitHub issue when anything regresses: a free, unattended monitor. Finally, a FastAPI backend serves a read-only JSON API over the same SQLite file to a React + Vite + Tailwind + Recharts dashboard (launched with promptcheck serve) showing pass-rate-over-time charts, run tables with baseline markers, and a test-level diff view for non-engineers. The whole thing is MIT-licensed, covered by a 31-test pytest suite that runs offline with no API calls, and runs end-to-end entirely on free tiers (Gemini and Groq for inference, SQLite for storage, GitHub Actions for automation).",
+  },
+  {
+    id: 11,
+    title: "Noesis (Explain-to-Learn App)",
+    description:
+      "A voice-and-chat learning app where each concept blooms from seed to flower once you can explain it back.",
+    date: "June 2026",
+    icon: Sprout,
+    tags: ["Next.js 16", "React 19", "React Flow", "Gemini", "ElevenLabs", "Turso"],
+    details:
+      "Noesis is a voice-and-chat learning app built on one principle: you haven't learned something until you can explain it back. It is rendered as a 'garden at dusk' where each concept grows from a gray seed to a green sprout to a rose bloom only once you've proven you understand it. It is a single Next.js 16 app (App Router, TypeScript, React 19, Tailwind v4) where the frontend and backend live together: the garden canvas is drawn with @xyflow/react (react-flow) using custom SVG growth-stage nodes and hand-curved 'vine' edges, animated with Framer Motion, and the whole experience is orchestrated client-side in a GardenApp component that swaps between a hero and onboarding landing, the graph dashboard, a full-screen teaching chat (typed or spoken, tutor replies rendered as markdown via react-markdown, with per-message read-aloud), and a separate checkpoint step that grades your explanation.\n\nOn the server, API route handlers call two AI providers over plain REST, Google Gemini first, automatically falling back to OpenRouter's free models on quota or rate errors (with retries, since some free models are reasoning-based and need generous token budgets), driven by three distinct prompt roles: a curriculum planner that decomposes any goal (or a 'surprise me' random pick, or an uploaded PDF parsed with unpdf) into an 8-to-14-node dependency graph, a tutor that teaches each concept in depth step-by-step, and a fair examiner that returns strict-JSON verdicts on whether you truly understood.\n\nData persists in a libsql/SQLite database (a local file in dev, hosted Turso in production, selected purely by the DATABASE_URL env var) whose every row is scoped to a user_id, supplied by a lightweight identity middleware that hands each visitor an anonymous per-device cookie, so gardens are private and the model upgrades to real accounts with zero schema change, while a server-side relayout() routine computes longest-path depth to lay each subject out as its own tidy left-to-right cluster.\n\nVoice runs entirely through ElevenLabs (Scribe speech-to-text in, natural TTS out, with browser-speech fallback) captured via MediaRecorder, the app ships as an installable PWA (service worker, offline shell, flower favicon and icons) with optional web-push 'refresher nudges' fired by a Vercel cron, and the codebase is deployed on Vercel, versioned on GitHub, and secured so the AI keys, database token, and tooling files never leave the local .env.",
+    link: "https://noesis-red.vercel.app/",
   },
   {
     id: 2,
@@ -119,6 +154,9 @@ const CATEGORY: Record<number, string> = {
   2: "AI",
   3: "AI",
   7: "AI",
+  9: "AI",
+  10: "AI",
+  11: "AI",
   8: "E-commerce",
   4: "E-commerce",
   5: "E-commerce",
@@ -144,8 +182,8 @@ const Projects = () => {
     return () => clearTimeout(t);
   }, [selected]);
 
-  const [f1, f2, ...rest] = projects;
-  const featuredList = [f1, f2];
+  const [f1, f2, f3, ...rest] = projects;
+  const featuredList = [f1, f2, f3];
   const gridProjects = filter === "All" ? rest : projects.filter((p) => CATEGORY[p.id] === filter);
 
   return (
