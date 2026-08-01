@@ -1,6 +1,6 @@
 import { motion, useInView } from "framer-motion";
 import { useRef, useState, useEffect } from "react";
-import { MessageSquare, ShoppingBag, FileText, ArrowUpRight, Globe, Database, Users, Coffee, Network, Terminal, Sprout } from "lucide-react";
+import { MessageSquare, ShoppingBag, FileText, ArrowUpRight, Globe, Database, Users, Coffee, Network, Terminal, Sprout, Github } from "lucide-react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import SectionHeading from "./SectionHeading";
@@ -48,7 +48,7 @@ const projects: Project[] = [
     title: "Nexus AI (RAG Knowledge Platform)",
     description:
       "A production RAG platform that turns GitHub repos and documents into a citable knowledge base you can chat with.",
-    date: "May 2026",
+    date: "June 2026",
     icon: Network,
     tags: ["FastAPI", "Supabase pgvector", "Next.js 14", "RAG", "React Three Fiber", "SSE"],
     details:
@@ -72,18 +72,19 @@ const projects: Project[] = [
     title: "PromptCheck (LLM Prompt Drift CLI)",
     description:
       "A CLI that treats LLM prompts as versioned, testable code and catches prompt drift in CI, with a live dashboard.",
-    date: "March 2026",
+    date: "July 2026",
     icon: Terminal,
     tags: ["Python", "Typer", "asyncio", "SQLite", "GitHub Actions", "FastAPI"],
     details:
       "PromptCheck is a Python command-line tool (packaged on PyPI as promptcheck-drift, installed via pip, exposing a promptcheck command built with Typer for the CLI and Rich for the terminal tables) that treats LLM prompts as testable, versioned code. You define test suites in human-readable YAML files: a prompt template with a {{ input }} placeholder, a list of models to run against, and per-test assertions, which are loaded and validated by Pydantic schemas, then executed by an asyncio runner that fans out every model-and-test combination concurrently over httpx with a semaphore-based concurrency cap and exponential-backoff retry that honors HTTP 429 Retry-After headers.\n\nModel calls go through a small provider abstraction with interchangeable backends (Google Gemini and Groq, both on free tiers, each normalizing responses into a common result with text, token counts, cost, latency, and the resolved model version), and each test's output is graded either by fast deterministic checks (equals, contains, not_contains, regex) or by an LLM-as-judge (llm_rubric) that sends the output to a pinned judge model at temperature 0 and parses a strict JSON verdict, with the judge's exact version recorded so the grader's own drift is visible.\n\nEvery run is persisted to a local SQLite database (runs, per-test results, and baselines tables), which powers the tool's real differentiator, drift detection: baseline pins a reference run, then watch re-runs and diffs against it, reporting only genuine regressions (tests that passed in the baseline but fail now) while deliberately treating API and rate-limit errors as 'could not evaluate' rather than false-alarm regressions, flagging model-version changes as the likely cause of a drop, and exiting non-zero so it gates CI.\n\nThat exit code plus a --summary-file markdown export feed a shipped GitHub Actions workflow that runs the suite on every pull request and on a nightly cron, persisting the history DB in the Actions cache and opening a GitHub issue when anything regresses: a free, unattended monitor. Finally, a FastAPI backend serves a read-only JSON API over the same SQLite file to a React + Vite + Tailwind + Recharts dashboard (launched with promptcheck serve) showing pass-rate-over-time charts, run tables with baseline markers, and a test-level diff view for non-engineers. The whole thing is MIT-licensed, covered by a 31-test pytest suite that runs offline with no API calls, and runs end-to-end entirely on free tiers (Gemini and Groq for inference, SQLite for storage, GitHub Actions for automation).",
+    link: "https://github.com/rim-19/PromptCheck",
   },
   {
     id: 11,
     title: "Noesis (Explain-to-Learn App)",
     description:
       "A voice-and-chat learning app where each concept blooms from seed to flower once you can explain it back.",
-    date: "June 2026",
+    date: "July 2026",
     icon: Sprout,
     tags: ["Next.js 16", "React 19", "React Flow", "Gemini", "ElevenLabs", "Turso"],
     details:
@@ -404,8 +405,17 @@ const Projects = () => {
             {selected?.link && (
               <Button asChild variant="gradient" className="w-full">
                 <a href={selected.link} target="_blank" rel="noopener noreferrer">
-                  <Globe className="h-4 w-4" />
-                  Open the live site
+                  {selected.link.includes("github.com") ? (
+                    <>
+                      <Github className="h-4 w-4" />
+                      View on GitHub
+                    </>
+                  ) : (
+                    <>
+                      <Globe className="h-4 w-4" />
+                      Open the live site
+                    </>
+                  )}
                 </a>
               </Button>
             )}
