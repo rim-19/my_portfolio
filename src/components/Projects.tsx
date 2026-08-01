@@ -37,7 +37,7 @@ const projects: Project[] = [
     title: "Cupid: Coffee House & Bookshop E-commerce",
     description:
       "A full-stack store for a coffee house and bookshop, with a server-rendered storefront, Stripe checkout, and a full admin dashboard.",
-    date: "July 2026",
+    date: "May 2026",
     icon: Coffee,
     tags: ["React", "Vite", "Node/Express", "Prisma", "PostgreSQL (Supabase)", "Stripe"],
     details:
