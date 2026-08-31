@@ -6,7 +6,7 @@ import { SparklesText } from "@/components/SparklesText";
 import { Magnetic } from "@/components/Magnetic";
 import { CountUp } from "@/components/CountUp";
 import CyberPortrait from "@/components/CyberPortrait";
-import resumePdf from "../assets/Resume_RimElrhezzal.pdf";
+import resumePdf from "../assets/RESUME_RimElrhezzal_updated.pdf";
 
 const ease = [0.23, 1, 0.32, 1] as const;
 
